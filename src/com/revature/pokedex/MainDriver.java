@@ -1,13 +1,10 @@
 package com.revature.pokedex;
 
-public class MainDriver {
+import java.io.*;
+
+public class MainDriver { // Pascal casing, whihc indicates class or interface
 
     public static void main(String[] args){
-
-        // System is a class
-        // out is a attribute of the class
-        // println is the method
-        System.out.println("This is the beginnings of our Pokedex application");
 
         // making our welcome message for users
         String welcome = "Welcome to the Pokedex!";
@@ -15,30 +12,94 @@ public class MainDriver {
         String option2 = "2) Register";
         // String() calls the constructor for the String Class
         // new keyword instantiates it
-        String option3 = new String(); // This is the same as ""
-
-        // This is declaration
-        String goodbye;
-        // Reassignment
-        goodbye = "Have a wonderful day";
-
-        // Reassignment
-        option3 = "3) Exit";
-
-        // String concatenation
-        // System.out.println(welcome + option1 + option2 + option3);
-//        System.out.println(welcome + "\n" + option1 + "\n" + option2 + "\n" + option3);
-//        System.out.println(goodbye);
+        String option3 = "3) View/Create pokemon";
+        String option4 = new String("4) Exit the pokedex"); // This is the same as ""
 
         // String conctenation is memory intensive
         // print formater
-        System.out.printf("%s \n %s \n %s \n %s", welcome, option1, option2, option3).println();
+        System.out.printf("%s \n %s \n %s \n %s \n %s", welcome, option1, option2, option3, option4).println();
 
         // Strings
-        // Strings are immutable meaning they cannot be changed once create, only reassigned
-        // option3 = option3 + " the pokedex"; // hot key to duplicate a lin is ctrl + d
-        option3 += " the pokedex";
-        System.out.println(option3); // After reassingment you can call the new variable with the changes
+        // when evaluating if two strings match for VALUE you cannot use ==
+//        String a = "Hello";
+//        String b = new String("Hello");
+//        System.out.println(a == b); // matches the memory location, not the value
+//        System.out.println(a.equals(b));
+//
+//        String c = "Hello";
+//        System.out.println(a == c); // matching to the memory location
+        // Check out Scanner if you want
+        // Buffered Readers read everything as strings
+        BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
+
+        // Try-catch blocks
+        // try - attempts the "risky" code
+        // catch - handles any exceptions that are thrown
+        // THESE ARE NOT ERRORS - YOU SHOULD NEVER CATCH AND ERROR
+        try {
+            System.out.println("Select number from above\n >");
+            String userSelection = terminalReader.readLine(); // the () invokes the readline method!!!
+            // This attempt to cast will not work, you cannot cast varying data types
+            // can cast primitives to other primitives
+            // long longVar = (long) intVar
+            // Primitives:
+                // char, int, long, byte, short, boolean, float, double, BigInt?
+                // don't use double or floats for money unless you want to lose it (they aren't precise)
+            // if( (int) userSelection == 1 ) {
+//            if ( userSelection.equals("1")) {
+//                System.out.println("User has selected login...");
+//            } else if ( userSelection.equals("2")) {
+//                System.out.println("User has selected register...");
+//            } else if ( userSelection.equals("3")) {
+//                System.out.println("User has selected view/create pokemon...");
+//            } else if ( userSelection.equals("4")) {
+//                System.out.println("User has selected exit...");
+//            }
+
+            // Instead of 1000 if statements we can use switch statement
+            switch (userSelection){
+                case "1":
+                    System.out.println("User has selected login...");
+                    break; // this breaks out of the switch statement, part of control flow
+                case "2":
+                    System.out.println("User has selected register...");
+                    break;
+                case "3":
+                    System.out.println("User has selected view/create pokemon...");
+
+                    System.out.println("What is your pokemon's name?");
+                    String pokemonName = terminalReader.readLine(); // when naming variables & methods, use camelCase
+
+                    System.out.println("What is their hp?");
+                    String hp = terminalReader.readLine();
+
+                    System.out.println("What is their attack value?");
+                    String atk = terminalReader.readLine();
+
+                    System.out.println("What is their element type?");
+                    String elementType = terminalReader.readLine();
+
+                    System.out.println("What is their ability 1?");
+                    String ability1 = terminalReader.readLine();
+
+                    System.out.println("What is their ability 2?");
+                    String ability2 = terminalReader.readLine();
+
+                    System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
+                            pokemonName, hp, atk, elementType, ability1, ability2).println();
+                    break;
+                case "4":
+                    System.out.println("User has selected exit...");
+                    break;
+                default: // always need a default and commonly goes at the end
+                    System.out.println("No valid user input provide");
+                    break;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace(); // prints out the exception that is thrown
+        }
+
     }
 
 }
