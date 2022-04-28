@@ -1,6 +1,9 @@
 package com.revature.pokedex;
 
+import com.revature.pokedex.models.Pokemon;
+
 import java.io.*;
+import java.sql.SQLOutput;
 
 public class MainDriver { // Pascal casing, whihc indicates class or interface
 
@@ -83,6 +86,16 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
             e.printStackTrace(); // prints out the exception that is thrown
         }
 
+        // THIS IS BAD, SHAME ON YOU CHARLES!!!!
+//        Pokemon pokemon1 = new Pokemon();
+//        pokemon1.pokemonName = "pikachu";
+//
+//        System.out.println(pokemon1.pokemonName);
+        // pokemon1 object is an INSTANCE of a Pokemon class
+//        Pokemon pokemon1 = new Pokemon("pikachu", "15", "10", "lightning", "Tackle", "Shock");
+//        System.out.println(pokemon1.getPokemonName());
+//        System.out.println(pokemon1.getHp());
+//        System.out.println(pokemon1.getAtk());
     }
 
     static void pokemonInput() throws IOException { // you can throw exceptions instead of handling them, this will throw up "level', referred to as Ducking
@@ -105,8 +118,23 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
         System.out.println("What is their ability 2?");
         String ability2 = terminalReader.readLine();
 
-        System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
-                pokemonName, hp, atk, elementType, ability1, ability2).println();
+//        System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
+//                pokemonName, hp, atk, elementType, ability1, ability2).println();
+
+        Pokemon pokemon1 = new Pokemon(pokemonName, hp, atk, elementType, ability1, ability2);
+        System.out.println(pokemon1); // What happens here?
     }
 
 }
+
+// Some cool things to look into
+// How to convert from String to int?
+// How to maybe use Scanner?
+// Figure out the keywords I was using
+    // access modifiers
+    // instantiate
+    // declaring
+    // returns
+    // primitives
+
+
