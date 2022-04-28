@@ -4,6 +4,9 @@ import java.io.*;
 
 public class MainDriver { // Pascal casing, whihc indicates class or interface
 
+    // This creates the depedency for both of our methods
+    static BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
+
     public static void main(String[] args){
 
         // making our welcome message for users
@@ -30,7 +33,7 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
 //        System.out.println(a == c); // matching to the memory location
         // Check out Scanner if you want
         // Buffered Readers read everything as strings
-        BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
+ //       BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
 
         // Try-catch blocks
         // try - attempts the "risky" code
@@ -66,27 +69,7 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
                     break;
                 case "3":
                     System.out.println("User has selected view/create pokemon...");
-
-                    System.out.println("What is your pokemon's name?");
-                    String pokemonName = terminalReader.readLine(); // when naming variables & methods, use camelCase
-
-                    System.out.println("What is their hp?");
-                    String hp = terminalReader.readLine();
-
-                    System.out.println("What is their attack value?");
-                    String atk = terminalReader.readLine();
-
-                    System.out.println("What is their element type?");
-                    String elementType = terminalReader.readLine();
-
-                    System.out.println("What is their ability 1?");
-                    String ability1 = terminalReader.readLine();
-
-                    System.out.println("What is their ability 2?");
-                    String ability2 = terminalReader.readLine();
-
-                    System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
-                            pokemonName, hp, atk, elementType, ability1, ability2).println();
+                    pokemonInput();
                     break;
                 case "4":
                     System.out.println("User has selected exit...");
@@ -100,6 +83,30 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
             e.printStackTrace(); // prints out the exception that is thrown
         }
 
+    }
+
+    static void pokemonInput() throws IOException { // you can throw exceptions instead of handling them, this will throw up "level', referred to as Ducking
+        //BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in)); // This creates a brand new buffered reader and input stream reader in the heap
+        System.out.println("What is your pokemon's name?");
+        String pokemonName = terminalReader.readLine(); // when naming variables & methods, use camelCase
+
+        System.out.println("What is their hp?");
+        String hp = terminalReader.readLine();
+
+        System.out.println("What is their attack value?");
+        String atk = terminalReader.readLine();
+
+        System.out.println("What is their element type?");
+        String elementType = terminalReader.readLine();
+
+        System.out.println("What is their ability 1?");
+        String ability1 = terminalReader.readLine();
+
+        System.out.println("What is their ability 2?");
+        String ability2 = terminalReader.readLine();
+
+        System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
+                pokemonName, hp, atk, elementType, ability1, ability2).println();
     }
 
 }
