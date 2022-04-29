@@ -1,107 +1,70 @@
 package com.revature.pokedex;
 
 import com.revature.pokedex.models.Pokemon;
+import com.revature.pokedex.models.Trainer;
 
 import java.io.*;
-import java.sql.SQLOutput;
 
-public class MainDriver { // Pascal casing, whihc indicates class or interface
+public class MainDriver {
 
-    // This creates the depedency for both of our methods
     static BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args){
 
-        // making our welcome message for users
         String welcome = "Welcome to the Pokedex!";
         String option1 = "1) Login";
         String option2 = "2) Register";
-        // String() calls the constructor for the String Class
-        // new keyword instantiates it
         String option3 = "3) View/Create pokemon";
-        String option4 = new String("4) Exit the pokedex"); // This is the same as ""
+        String option4 = "4) View all trainers";
+        String option5 = new String("5) Exit the pokedex"); // This is the same as ""
 
-        // String conctenation is memory intensive
-        // print formater
-        System.out.printf("%s \n %s \n %s \n %s \n %s", welcome, option1, option2, option3, option4).println();
 
-        // Strings
-        // when evaluating if two strings match for VALUE you cannot use ==
-//        String a = "Hello";
-//        String b = new String("Hello");
-//        System.out.println(a == b); // matches the memory location, not the value
-//        System.out.println(a.equals(b));
-//
-//        String c = "Hello";
-//        System.out.println(a == c); // matching to the memory location
-        // Check out Scanner if you want
-        // Buffered Readers read everything as strings
- //       BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf("%s \n %s \n %s \n %s \n %s \n %s", welcome, option1, option2, option3, option4, option5).println();
 
-        // Try-catch blocks
-        // try - attempts the "risky" code
-        // catch - handles any exceptions that are thrown
-        // THESE ARE NOT ERRORS - YOU SHOULD NEVER CATCH AND ERROR
+
         try {
-            System.out.println("Select number from above\n >");
-            String userSelection = terminalReader.readLine(); // the () invokes the readline method!!!
-            // This attempt to cast will not work, you cannot cast varying data types
-            // can cast primitives to other primitives
-            // long longVar = (long) intVar
-            // Primitives:
-                // char, int, long, byte, short, boolean, float, double, BigInt?
-                // don't use double or floats for money unless you want to lose it (they aren't precise)
-            // if( (int) userSelection == 1 ) {
-//            if ( userSelection.equals("1")) {
-//                System.out.println("User has selected login...");
-//            } else if ( userSelection.equals("2")) {
-//                System.out.println("User has selected register...");
-//            } else if ( userSelection.equals("3")) {
-//                System.out.println("User has selected view/create pokemon...");
-//            } else if ( userSelection.equals("4")) {
-//                System.out.println("User has selected exit...");
-//            }
+            System.out.print("\n Select number from above\n >");
+            String userSelection = terminalReader.readLine();
 
-            // Instead of 1000 if statements we can use switch statement
             switch (userSelection){
                 case "1":
                     System.out.println("User has selected login...");
-                    break; // this breaks out of the switch statement, part of control flow
+                    break;
                 case "2":
                     System.out.println("User has selected register...");
+                    register();
                     break;
                 case "3":
                     System.out.println("User has selected view/create pokemon...");
                     pokemonInput();
                     break;
                 case "4":
+                    System.out.println("User has selected view trainers...");
+                    Trainer[] trainers = readTrainer();
+                    for (int i = 0; i < (trainers.length - 1); i++){
+                        Trainer trainer = trainers[i];
+                        System.out.println(trainer.toString());
+                    }
+                    break;
+                case "5":
                     System.out.println("User has selected exit...");
                     break;
-                default: // always need a default and commonly goes at the end
+                default:
                     System.out.println("No valid user input provide");
                     break;
             }
 
-        } catch (IOException e) {
-            e.printStackTrace(); // prints out the exception that is thrown
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
         }
 
-        // THIS IS BAD, SHAME ON YOU CHARLES!!!!
-//        Pokemon pokemon1 = new Pokemon();
-//        pokemon1.pokemonName = "pikachu";
-//
-//        System.out.println(pokemon1.pokemonName);
-        // pokemon1 object is an INSTANCE of a Pokemon class
-//        Pokemon pokemon1 = new Pokemon("pikachu", "15", "10", "lightning", "Tackle", "Shock");
-//        System.out.println(pokemon1.getPokemonName());
-//        System.out.println(pokemon1.getHp());
-//        System.out.println(pokemon1.getAtk());
+        main(args);
+
     }
 
-    static void pokemonInput() throws IOException { // you can throw exceptions instead of handling them, this will throw up "level', referred to as Ducking
-        //BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in)); // This creates a brand new buffered reader and input stream reader in the heap
+    static void pokemonInput() throws IOException {
         System.out.println("What is your pokemon's name?");
-        String pokemonName = terminalReader.readLine(); // when naming variables & methods, use camelCase
+        String pokemonName = terminalReader.readLine();
 
         System.out.println("What is their hp?");
         String hp = terminalReader.readLine();
@@ -118,23 +81,87 @@ public class MainDriver { // Pascal casing, whihc indicates class or interface
         System.out.println("What is their ability 2?");
         String ability2 = terminalReader.readLine();
 
-//        System.out.printf("Pokemon Name: %s, HP: %s, ATK: %s, Element Type: %s, Ability 1: %s, Ability 2: %s",
-//                pokemonName, hp, atk, elementType, ability1, ability2).println();
+        Pokemon pokemon1 = new Pokemon(
+                            pokemonName,
+                            Integer.parseInt(hp), //
+                            Integer.parseInt(atk), //
+                            elementType,
+                            ability1,
+                            ability2
+        );
 
-        Pokemon pokemon1 = new Pokemon(pokemonName, hp, atk, elementType, ability1, ability2);
-        System.out.println(pokemon1); // What happens here?
+        System.out.println(pokemon1);
+    }
+
+    static void register() throws IOException {
+
+        System.out.println("What is your full name?");
+        String fullName = terminalReader.readLine();
+
+        System.out.println("What is your email?");
+        String email = terminalReader.readLine();
+
+        System.out.println("What is your password?");
+        String password = terminalReader.readLine();
+
+        System.out.println("Re-enter password");
+        String passwordCheck = terminalReader.readLine();
+
+        System.out.println("DOB?");
+        String dob = terminalReader.readLine();
+
+        String[] nameArray = fullName.split(" ");
+        String fname = nameArray[0];
+        String lname = nameArray[0];
+
+        if (!password.equals(passwordCheck)) {
+            System.out.println("Passwords don't match");
+            return;
+        }
+
+        Trainer newTrainer = new Trainer(fname, lname, email, password, dob);
+        System.out.println(newTrainer);
+
+        File trainerPersist = new File("resources/data.txt");
+
+        try(FileWriter fileWriter = new FileWriter(trainerPersist, true)) {
+            fileWriter.write(newTrainer.toFileString() + "\n");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    static Trainer[] readTrainer() throws IOException {
+
+        FileReader fileReader = new FileReader("resources/data.txt");
+        BufferedReader reader = new BufferedReader(fileReader);
+
+        Trainer[] trainers = new Trainer[10];
+
+        String line = reader.readLine();
+        int index = 0;
+
+        while (line != null){
+            String[] trainerInfo = line.split(",");
+
+            String fname = trainerInfo[0];
+            String lname = trainerInfo[1];
+            String email = trainerInfo[2];
+            String password = trainerInfo[3];
+            String dob = trainerInfo[4];
+
+            Trainer trainer = new Trainer(fname, lname, email, password, dob);
+            trainers[index] = trainer;
+
+            index++;
+            line = reader.readLine();
+        }
+        reader.close();
+
+        return trainers;
     }
 
 }
-
-// Some cool things to look into
-// How to convert from String to int?
-// How to maybe use Scanner?
-// Figure out the keywords I was using
-    // access modifiers
-    // instantiate
-    // declaring
-    // returns
-    // primitives
 
 
