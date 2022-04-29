@@ -112,7 +112,7 @@ public class MainDriver {
 
         String[] nameArray = fullName.split(" ");
         String fname = nameArray[0];
-        String lname = nameArray[0];
+        String lname = nameArray[1];
 
         if (!password.equals(passwordCheck)) {
             System.out.println("Passwords don't match");
