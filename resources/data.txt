@@ -1,2 +1,4 @@
 Charles,Charles,cj@mail.com,password,01-01-001
 Buck,Buck,bw@mail.com,hi,02-02-0002
+Charles,Jester,cjester@mail.com,superSecret,09-09-0009
+Maxwell,House,mh@mail.com,coffee,01-02-0003

@@ -9,6 +9,8 @@ public class Pokemon {
     private String ability1;
     private String ability2;
 
+    // This is a No-Args Constructor. IT's the default, IFFFl there is no other constructor added.
+    // Otherwise, the custom constructor overwrites
     public Pokemon(){
         super();
     }

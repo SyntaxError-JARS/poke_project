@@ -8,7 +8,10 @@ public class Trainer {
     private String password;
     private String dob;
 
+//    public Trainer(){}
+
     public Trainer(String fname, String lname, String email, String password, String dob) {
+        super(); // just always there, by default of EVERY CLASS is Object
         this.fname = fname;
         this.lname = lname;
         this.email = email;
@@ -28,6 +31,11 @@ public class Trainer {
         return lname;
     }
 
+    // trainer.lname = "Jester" is bad, because you could reassign on accident if it were say and int and you did
+    // trainer.age = 10;
+    // This allows us to explicitly state we are setting the lname variablem, or reassigning it
+    // Trainer trainer = new Trainer();
+    // trainer.setLname("Jester")
     public void setLname(String lname) {
         this.lname = lname;
     }
@@ -57,22 +65,21 @@ public class Trainer {
     }
 
     public String toFileString() {
+        // StringBuilder, there is also a StringBuffer (it's thread-safe)
+        // Is another class for Strings that allows them to be mutated
         StringBuilder mutableString = new StringBuilder();
         mutableString
-                .append(fname)
-                .append(",")
-                .append(lname)
-                .append(",")
-                .append(email)
-                .append(",")
-                .append(password)
-                .append(",")
+                .append(fname).append(",")
+                .append(lname).append(",")
+                .append(email).append(",")
+                .append(password).append(",")
                 .append(dob);
 
-        return mutableString.toString();
+        // Without changing the mutableString class from StringBuilder we wont' have an appropriate return type
+        return mutableString.toString(); // We need the toString to return it to it's appropriate type
     }
 
-    @Override
+    @Override // What this is?? Annotation - basically metadata
     public String toString() {
         return "Trainer{" +
                 "fname='" + fname + '\'' +
