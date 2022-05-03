@@ -27,8 +27,8 @@ public class TrainerServices {
     }
 
     // TODO: Implement me to check that the email is not already in our database.
-    public boolean validateEmailNotUsed(){
-        trainerDao.checkEmail();
+    public boolean validateEmailNotUsed(String email){
+        trainerDao.checkEmail(email);
         return false;
     }
     
@@ -40,6 +40,7 @@ public class TrainerServices {
             throw new RuntimeException();
         }
 
+        // TODO: Will implement with JDBC (connecting to our database)
         validateEmailNotUsed(newTrainer.getEmail());
 
         Trainer persistedTrainer = trainerDao.create(newTrainer);
