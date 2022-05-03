@@ -3,6 +3,8 @@ import com.revature.pokedex.services.TrainerServices;
 
 import java.io.BufferedReader;
 
+import static com.revature.pokedex.util.AppState.shutdown;
+
 public class WelcomeMenu extends Menu{
 
     private TrainerServices trainerServices;
@@ -45,6 +47,7 @@ public class WelcomeMenu extends Menu{
             case "5":
                 System.out.println("User has selected exit...");
                 // shutdown application here
+                shutdown();
                 break;
             default: // why have a default? catch all if input doesn't match any case above.
                 System.out.println("No valid user input provide");

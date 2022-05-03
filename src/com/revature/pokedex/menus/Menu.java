@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 
 public abstract class Menu {
 
-    protected String name;
+    protected String name; // TODO: What on earth is protected!?
     protected String route;
     protected BufferedReader terminalReader;
 

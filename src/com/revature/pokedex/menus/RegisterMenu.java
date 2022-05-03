@@ -1,6 +1,7 @@
 package com.revature.pokedex.menus;
 
 import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.services.TrainerServices;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class RegisterMenu extends Menu{
+
+    private TrainerServices trainerServices = new TrainerServices();
 
     public RegisterMenu(BufferedReader terminalReader) {
         super("Register", "/register", terminalReader);
@@ -35,7 +38,7 @@ public class RegisterMenu extends Menu{
         // Breaking or splitting the String fullName into an String array by " " spaces
         String[] nameArray = fullName.split(" ");
         String fname = nameArray[0];
-        String lname = nameArray[nameArray.length - 1];
+        String lname = nameArray[1];
 
         // What's happening here??
         //
@@ -48,17 +51,7 @@ public class RegisterMenu extends Menu{
         // Trainer trainer = new Trainer(); // why is this red?? there isn't a No-Arg constructor
         // What's happening here? Intialization a new Trainer object in memory
         Trainer newTrainer = new Trainer(fname, lname, email, password, dob);
-        System.out.println(newTrainer); // What happens here? Java knows to invoke the toString() method when printing the object to the terminal
-
-        // What's this??? Obtaining the file from the relative path
-        File trainerPersist = new File("resources/data.txt"); // Note check out maxwells stuff.
-
-        // What's happening here???
-        // try-with-resoruces - it works with auto-closable classes.
-        try(FileWriter fileWriter = new FileWriter(trainerPersist, true)) {
-            fileWriter.write(newTrainer.toFileString() + "\n"); // write is method to write into the specified fill
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        System.out.println("Here is the trainer that was provided by the user: " + newTrainer);
+        trainerServices.registerTrainer(newTrainer);
     }
 }
