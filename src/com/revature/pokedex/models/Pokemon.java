@@ -29,24 +29,48 @@ public class Pokemon {
         return pokemonName;
     }
 
+    public void setPokemonName(String pokemonName) {
+        this.pokemonName = pokemonName;
+    }
+
     public int getHp(){
         return this.hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public int getAtk() {
         return atk;
     }
 
+    public void setAtk(int atk) {
+        this.atk = atk;
+    }
+
     public String getElementType() {
         return elementType;
+    }
+
+    public void setElementType(String elementType) {
+        this.elementType = elementType;
     }
 
     public String getAbility1() {
         return ability1;
     }
 
+    public void setAbility1(String ability1) {
+        this.ability1 = ability1;
+    }
+
     public String getAbility2() {
         return ability2;
+    }
+
+    public void setAbility2(String ability2) {
+        this.ability2 = ability2;
     }
 
     @Override
