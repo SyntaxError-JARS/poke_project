@@ -30,7 +30,7 @@ public class AppState {
             while(isRunning) {
                 System.out.println("Application successfully started");
                 registerMenu.render();
-                // welcomeMenu.render(); comment in and out based on what you want to use
+                // welcomeMenu.render(); // comment in and out based on what you want to use
             }
         } catch (Exception e) {
             e.printStackTrace();

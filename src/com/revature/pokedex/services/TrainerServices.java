@@ -34,7 +34,6 @@ public class TrainerServices {
     
     public boolean registerTrainer(Trainer newTrainer){
         System.out.println("Trainer trying to be registered: " + newTrainer);
-        newTrainer.setLname(null);
         if(!validateTrainerInput(newTrainer)){ // checking if false
             System.out.println("User was not validated");
             throw new RuntimeException();

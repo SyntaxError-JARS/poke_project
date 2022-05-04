@@ -1,8 +1,10 @@
 package com.revature.pokedex.daos;
 
 import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.ConnectionFactory;
 
 import java.io.*;
+import java.sql.*;
 
 public class TrainerDao implements Crudable<Trainer>{
 
@@ -10,55 +12,74 @@ public class TrainerDao implements Crudable<Trainer>{
     public Trainer create(Trainer newTrainer) {
         System.out.println("Here is the newTrainer as it enters our DAO layer: "+ newTrainer); // What happens here? Java knows to invoke the toString() method when printing the object to the terminal
 
-        // What's this??? Obtaining the file from the relative path
-        File trainerPersist = new File("resources/data.txt"); // Note check out maxwells stuff.
+        try(Connection conn = ConnectionFactory.getInstance().getConnection();) {
 
-        // What's happening here???
-        // try-with-resoruces - it works with auto-closable classes.
-        try(FileWriter fileWriter = new FileWriter(trainerPersist, true)) {
-            fileWriter.write(newTrainer.toFileString() + "\n"); // write is method to write into the specified fill
-        } catch (IOException e){
-            System.out.println("Could not persist to file");
+            // NEVER EVER EVER EVER EVER concatenate or directly use these strings inside of the sql statement
+            // String sql = "insert into trainer value (" + newTrainer.getFname() + "," + newTrainer.getLname();
+
+            String sql = "insert into ( fname, lname, email, password, dob) trainer values (?, ?, ?, ?, ?)"; // incomplete sql statement
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            System.out.println(newTrainer.getFname());
+            System.out.println(newTrainer.getLname());
+
+            // 1-indexed, so first ? starts are 1
+            ps.setString(1, newTrainer.getFname());
+            ps.setString(2, newTrainer.getLname());
+            ps.setString(3, newTrainer.getEmail());
+            ps.setString(4, newTrainer.getPassword());
+            ps.setString(5, newTrainer.getDob());
+
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new RuntimeException();
+            }
+
+        } catch (SQLException | RuntimeException e){
             e.printStackTrace();
             return null;
         }
-        System.out.println("Returning the newTrainer that was inserted into our data.txt");
         return newTrainer;
     }
 
     @Override
     public Trainer[] findAll() throws IOException {
-        // FileWriter's evil counterpart, to read files
-        System.out.println("Locating file for our database.");
-        FileReader fileReader = new FileReader("resources/data.txt");
-        BufferedReader reader = new BufferedReader(fileReader); // BufferedReader is now reading the file, line-by-line
 
-        // Initializing an array of 10 Trainers
-        Trainer[] trainers = new Trainer[10]; // when we specify a size, the array cannot grow. It's max limit is 10 because we gave 10
-        // Trainer[] trainers = new Trainer[100]; you have to specify a size in the []
-        // Reading the input, being the file, one line a time
-        System.out.println("Starting to read file, line by line");
-        String line = reader.readLine();
+        Trainer[] trainers = new Trainer[10];
         int index = 0; // we want to keep track of where we are placing each trainer from the file into the the array
 
-        while (line != null){ // the last line of the file is null
-            String[] trainerInfo = line.split(","); // What's happening? If comma, split into individual string in array
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
-            String fname = trainerInfo[0];
-            String lname = trainerInfo[1];
-            String email = trainerInfo[2];
-            String password = trainerInfo[3];
-            String dob = trainerInfo[4];
+            String sql = "select * from trainer";
+            Statement s = null;
 
-            System.out.println("Inserted trainer into index" + index);
-            Trainer trainer = new Trainer(fname, lname, email, password, dob);
-            trainers[index] = trainer;
+            s = conn.createStatement();
 
-            index++; // increment the index by 1, must occur after the trainer[index] re-assignment
-            System.out.println("Going to the next line for our following index.");
-            line = reader.readLine(); // re-assigns the line variable to the next line in the file, not-impacted by any means by index
+        // conn.createStatement().executeQuery("select * from trainer"); fine but generally not used
+            ResultSet rs =s.executeQuery(sql);
+
+            while (rs.next()) { // the last line of the file is null
+                Trainer trainer = new Trainer();
+
+                trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
+                trainer.setLname(rs.getString("lname"));
+                trainer.setDob(rs.getString("dob"));
+                trainer.setPassword(rs.getString("password"));
+                trainer.setEmail(rs.getString("email"));
+
+                System.out.println("Inserted trainer into index" + index);
+                trainers[index] = trainer;
+                index++; // increment the index by 1, must occur after the trainer[index] re-assignment
+                System.out.println("Going to the next line for our following index.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        reader.close(); // we need to close our reader
+
+
 
         System.out.println("Returning trainers infomation to user.");
         return trainers;

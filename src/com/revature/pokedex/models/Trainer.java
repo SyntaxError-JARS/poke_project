@@ -19,6 +19,10 @@ public class Trainer {
         this.dob = dob;
     }
 
+    public Trainer() {
+
+    }
+
     // Getters & Setters
     public String getFname() {
         return fname;
