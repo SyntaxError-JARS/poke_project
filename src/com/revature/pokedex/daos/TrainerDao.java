@@ -17,7 +17,9 @@ public class TrainerDao implements Crudable<Trainer>{
             // NEVER EVER EVER EVER EVER concatenate or directly use these strings inside of the sql statement
             // String sql = "insert into trainer value (" + newTrainer.getFname() + "," + newTrainer.getLname();
 
-            String sql = "insert into ( fname, lname, email, password, dob) trainer values (?, ?, ?, ?, ?)"; // incomplete sql statement
+            // The commented out sql String is using default for auto-generating the ID ifyou used serial
+            // String sql = "insert into trainer values (default, ?, ?, ?, ?, ?)"; // incomplete sql statement, with default if not specifiying columns
+            String sql = "insert into trainer (fname, lname, email, password, dob) values (?, ?, ?, ?, ?)";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
