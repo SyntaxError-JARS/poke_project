@@ -55,9 +55,7 @@ public class TrainerDao implements Crudable<Trainer>{
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
             String sql = "select * from trainer";
-            Statement s = null;
-
-            s = conn.createStatement();
+            Statement s = conn.createStatement();
 
         // conn.createStatement().executeQuery("select * from trainer"); fine but generally not used
             ResultSet rs =s.executeQuery(sql);
@@ -89,7 +87,33 @@ public class TrainerDao implements Crudable<Trainer>{
 
     @Override
     public Trainer findById(String id) {
-        return null;
+
+
+        try(Connection conn = ConnectionFactory.getInstance().getConnection();){
+
+            String sql = "select * from trainer where id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, Integer.parseInt(id)); // Wrapper class example
+
+            ResultSet rs = ps.executeQuery(); // remember dql, bc selects are the keywords
+
+            Trainer trainer = new Trainer();
+
+            trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
+            trainer.setLname(rs.getString("lname"));
+            trainer.setDob(rs.getString("dob"));
+            trainer.setPassword(rs.getString("password"));
+            trainer.setEmail(rs.getString("email"));
+
+            return trainer;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override
