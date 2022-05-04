@@ -1,3 +1,4 @@
 .idea/
 pokedex.iml
 out/
+db.properties
