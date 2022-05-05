@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// Inheritance from menu abstract class :D another pillar of OOP
 public class RegisterMenu extends Menu{
 
     private TrainerServices trainerServices = new TrainerServices();
@@ -16,6 +17,8 @@ public class RegisterMenu extends Menu{
         super("Register", "/register", terminalReader);
     }
 
+    // Polymorphism  Another pillar of OOP for the same thing doing different things
+    // This is overriding a method
     @Override
     public void render() throws Exception {
         // TODO: Implement me!!!

@@ -21,6 +21,8 @@ public class MainDriver {
         System.out.println("Pokedex Application starting up....");
         appState.startup();
 
+
+
     }
 }
 

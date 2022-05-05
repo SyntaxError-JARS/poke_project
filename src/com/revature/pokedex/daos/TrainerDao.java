@@ -2,6 +2,7 @@ package com.revature.pokedex.daos;
 
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.ConnectionFactory;
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 import java.io.*;
 import java.sql.*;
@@ -49,15 +50,19 @@ public class TrainerDao implements Crudable<Trainer>{
     @Override
     public Trainer[] findAll() throws IOException {
 
+        // making an array of Trainer classes, and seetting it to a max size of 10
         Trainer[] trainers = new Trainer[10];
+        // declaring index variable as an int and intiliazation witht he value of 0
         int index = 0; // we want to keep track of where we are placing each trainer from the file into the the array
 
+        // TODO: we trying something here and passing an argumetn???
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
             String sql = "select * from trainer";
             Statement s = conn.createStatement();
 
         // conn.createStatement().executeQuery("select * from trainer"); fine but generally not used
+            // TODO: Hey why are we using the sql variable string here?
             ResultSet rs =s.executeQuery(sql);
 
             while (rs.next()) { // the last line of the file is null
