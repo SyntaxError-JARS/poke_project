@@ -1,4 +1,5 @@
 .idea/
 pokedex.iml
 out/
-resources/db.properties
+src/main/resources/db.properties
+target/
