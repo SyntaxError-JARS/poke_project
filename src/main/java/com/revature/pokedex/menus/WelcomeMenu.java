@@ -1,5 +1,6 @@
 package com.revature.pokedex.menus;
 import com.revature.pokedex.services.TrainerServices;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.BufferedReader;
 
@@ -8,10 +9,12 @@ import static com.revature.pokedex.util.AppState.shutdown;
 public class WelcomeMenu extends Menu{
 
     private TrainerServices trainerServices;
+    private final Logger logger;
 
-    public WelcomeMenu(BufferedReader terminalReader, TrainerServices trainerServices) {
+    public WelcomeMenu(BufferedReader terminalReader, TrainerServices trainerServices, Logger logger) {
        super("Welcome", "/welcome", terminalReader);
        this.trainerServices = trainerServices;
+       this.logger = logger;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class WelcomeMenu extends Menu{
         // TODO: What is a switch?
         switch (userSelection) {
             case "1":
-                System.out.println("User has selected login...");
+                logger.info("User has selected login...");
                 break;
             case "2":
                 System.out.println("User has selected register...");
@@ -54,6 +57,7 @@ public class WelcomeMenu extends Menu{
                 System.out.println("User has selected exit...");
                 // shutdown application here
                 shutdown();
+                logger.info("Application shutting down");
                 break;
             default: // why have a default? catch all if input doesn't match any case above.
                 System.out.println("No valid user input provide");

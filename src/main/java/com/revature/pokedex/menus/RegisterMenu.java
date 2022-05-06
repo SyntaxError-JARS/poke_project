@@ -4,6 +4,7 @@ import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class RegisterMenu extends Menu{
 
     private TrainerServices trainerServices = new TrainerServices();
+    private final Logger logger = Logger.getLogger(false);
 
     public RegisterMenu(BufferedReader terminalReader) {
         super("Register", "/register", terminalReader);
@@ -62,8 +64,7 @@ public class RegisterMenu extends Menu{
         try{
             trainerServices.registerTrainer(newTrainer); // this is the risky code
         } catch(InvalidRequestException | ResourcePersistanceException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
 
     }
