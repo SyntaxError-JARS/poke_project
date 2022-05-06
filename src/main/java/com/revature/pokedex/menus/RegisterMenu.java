@@ -1,5 +1,7 @@
 package com.revature.pokedex.menus;
 
+import com.revature.pokedex.exceptions.InvalidRequestException;
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
 
@@ -55,6 +57,14 @@ public class RegisterMenu extends Menu{
         // What's happening here? Intialization a new Trainer object in memory
         Trainer newTrainer = new Trainer(fname, lname, email, password, dob);
         System.out.println("Here is the trainer that was provided by the user: " + newTrainer);
-        trainerServices.registerTrainer(newTrainer);
+
+        // How to fix this emptry
+        try{
+            trainerServices.registerTrainer(newTrainer); // this is the risky code
+        } catch(InvalidRequestException | ResourcePersistanceException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }

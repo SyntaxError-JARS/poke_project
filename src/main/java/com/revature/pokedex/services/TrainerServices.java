@@ -1,6 +1,8 @@
 package com.revature.pokedex.services;
 
 import com.revature.pokedex.daos.TrainerDao;
+import com.revature.pokedex.exceptions.InvalidRequestException;
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
@@ -72,9 +74,8 @@ public class TrainerServices {
     public boolean registerTrainer(Trainer newTrainer){
         System.out.println("Trainer trying to be registered: " + newTrainer);
         if(!validateTrainerInput(newTrainer)){ // checking if false
-            System.out.println("User was not validated");
             // TODO: throw - what's this keyword?
-            throw new RuntimeException();
+            throw new InvalidRequestException("User input was not validated, either empty String or null values");
         }
 
         // TODO: Will implement with JDBC (connecting to our database)
@@ -83,7 +84,7 @@ public class TrainerServices {
         Trainer persistedTrainer = trainerDao.create(newTrainer);
 
         if(persistedTrainer == null){
-            throw new RuntimeException();
+            throw new ResourcePersistanceException("Trainer was not persisted to the database upon registration");
         }
         System.out.println("Trainer has been persisted: " + newTrainer);
         return true;
