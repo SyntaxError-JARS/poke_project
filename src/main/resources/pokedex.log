@@ -1,0 +1,17 @@
+2022-05-06T11:59:17.233 LOG: 2. Generating instance of AppState.
+2022-05-06T12:03:36.439 LOG: 2. Generating instance of AppState.
+2022-05-06T12:03:36.796 INFO: Application successfully started
+2022-05-06T12:03:46.408 WARN: User input was not validated, either empty String or null values
+2022-05-06T12:03:46.409 INFO: Application successfully started
+2022-05-06T12:05:01.810 LOG: 2. Generating instance of AppState.
+2022-05-06T12:05:01.976 INFO: Application successfully started
+2022-05-06T12:05:08.509 WARN: User input was not validated, either empty String or null values
+2022-05-06T12:05:08.510 INFO: Application successfully started
+2022-05-06T12:05:33.893 LOG: 2. Generating instance of AppState.
+2022-05-06T12:05:33.967 INFO: Application successfully started
+2022-05-06T12:05:48.340 WARN: User input was not validated, either empty String or null values
+2022-05-06T12:05:48.341 INFO: Application successfully started
+2022-05-06T12:06:48.362 LOG: 2. Generating instance of AppState.
+2022-05-06T12:06:48.520 INFO: Application successfully started
+2022-05-06T12:06:58.789 WARN: User input was not validated, either empty String or null values
+2022-05-06T12:06:58.791 INFO: Application successfully started
