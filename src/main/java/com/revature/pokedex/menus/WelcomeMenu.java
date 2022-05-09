@@ -25,7 +25,7 @@ public class WelcomeMenu extends Menu{
         String welcome = "Welcome to the Pokedex!";
         String option1 = "1) Login";
         String option2 = "2) Register";
-        String option3 = "3) View/Create pokemon";
+        String option3 = "3) Find Trainer by ID";
         String option4 = "4) View all trainers";
         String option5 = new String("5) Exit the pokedex"); // This is the same as ""
 
@@ -46,8 +46,11 @@ public class WelcomeMenu extends Menu{
                 // register(); // ctrl + left-click
                 break;
             case "3":
-                System.out.println("User has selected view/create pokemon...");
-                // pokemonInput(); // ctrl + left-click
+                System.out.println("User has selected to find trainer by ID...");
+                System.out.println("Please enter the ID for specific trainer: ");
+                String id = terminalReader.readLine();
+
+                System.out.println(trainerServices.findTrainerById(id));
                 break;
             case "4":
                 System.out.println("User has selected view trainers...");

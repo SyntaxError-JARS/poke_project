@@ -157,7 +157,7 @@ select * from trainer;
 -----------------------------------------
 -------------CRU(pdate)D-----------------
 
-update trainer set dob = '06-01-2002' where email = 'sl@mail.com' ;
+-- update trainer set dob = '06-01-2002' where email = 'sl@mail.com' ;
 
 -------------Update End------------------
 

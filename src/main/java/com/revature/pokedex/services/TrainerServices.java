@@ -4,7 +4,7 @@ import com.revature.pokedex.daos.TrainerDao;
 import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +13,7 @@ import java.io.IOException;
 public class TrainerServices {
 
     private TrainerDao trainerDao = new TrainerDao();
+    private Logger logger = Logger.getLogger(true);
 
     public void readTrainers(){
         System.out.println("Begin reading Trainers in our file database.");
@@ -59,16 +60,22 @@ public class TrainerServices {
         }
     }
 
-
-
+    public Trainer findTrainerById(String id){
+        try {
+            Trainer trainer = trainerDao.findById(id);
+            return trainer;
+        } catch (ResourcePersistanceException e){
+            logger.warn(e.getMessage());
+            return null;
+        }
+    }
     // TODO: Implement me to check that the email is not already in our database.
     // public this allows the use of this method anywhere there is a TrainerServices object or within the class itself
     // boolean - it's a true or false value in java and it's specifying the return type
     // validateEmailNotUse() this is a method what we want to call to the DAO to check if the email is already in use
     // String email is the defiend parameters for arguments required when invoking this method
     public boolean validateEmailNotUsed(String email){
-        trainerDao.checkEmail(email);
-        return false;
+        return trainerDao.checkEmail(email);
     }
     
     public boolean registerTrainer(Trainer newTrainer){
@@ -79,7 +86,9 @@ public class TrainerServices {
         }
 
         // TODO: Will implement with JDBC (connecting to our database)
-        validateEmailNotUsed(newTrainer.getEmail());
+        if(validateEmailNotUsed(newTrainer.getEmail())){
+            throw new InvalidRequestException("User email is already in use. Please try again with another email or login into previous made account.");
+        }
 
         Trainer persistedTrainer = trainerDao.create(newTrainer);
 

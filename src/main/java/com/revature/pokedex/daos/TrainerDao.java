@@ -1,8 +1,8 @@
 package com.revature.pokedex.daos;
 
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.ConnectionFactory;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 import java.io.*;
 import java.sql.*;
@@ -37,10 +37,10 @@ public class TrainerDao implements Crudable<Trainer>{
             int checkInsert = ps.executeUpdate();
 
             if(checkInsert == 0){
-                throw new RuntimeException();
+                throw new ResourcePersistanceException("User was not entered into database due to some issue.");
             }
 
-        } catch (SQLException | RuntimeException e){
+        } catch (SQLException e){
             e.printStackTrace();
             return null;
         }
@@ -93,7 +93,6 @@ public class TrainerDao implements Crudable<Trainer>{
     @Override
     public Trainer findById(String id) {
 
-
         try(Connection conn = ConnectionFactory.getInstance().getConnection();){
 
             String sql = "select * from trainer where id = ?";
@@ -103,6 +102,10 @@ public class TrainerDao implements Crudable<Trainer>{
             ps.setInt(1, Integer.parseInt(id)); // Wrapper class example
 
             ResultSet rs = ps.executeQuery(); // remember dql, bc selects are the keywords
+
+            if(!rs.next()){
+                throw new ResourcePersistanceException("User was not found in the database, please check ID entered was correct.");
+            }
 
             Trainer trainer = new Trainer();
 
@@ -131,7 +134,21 @@ public class TrainerDao implements Crudable<Trainer>{
         return false;
     }
 
-    public void checkEmail(String email) {
-        String sql = "select email from trainer where email = " + email; // issues with SQL injection
+    public boolean checkEmail(String email) {
+
+        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "select email from trainer where email = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.isBeforeFirst()){
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

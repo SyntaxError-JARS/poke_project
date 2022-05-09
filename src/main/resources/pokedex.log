@@ -15,3 +15,33 @@
 2022-05-06T12:06:48.520 INFO: Application successfully started
 2022-05-06T12:06:58.789 WARN: User input was not validated, either empty String or null values
 2022-05-06T12:06:58.791 INFO: Application successfully started
+2022-05-08T01:14:37.941 LOG: 2. Generating instance of AppState.
+2022-05-08T01:14:37.975 INFO: Application successfully started
+2022-05-08T01:14:44.941 INFO: Application shutting down
+2022-05-08T01:50:56.571 LOG: 2. Generating instance of AppState.
+2022-05-08T01:50:56.609 INFO: Application successfully started
+2022-05-08T01:51:01.851 INFO: Application successfully started
+2022-05-09T00:05:18.038 LOG: 2. Generating instance of AppState.
+2022-05-09T00:05:18.072 INFO: Application successfully started
+2022-05-09T00:06:05.024 INFO: Application successfully started
+2022-05-09T00:06:41.054 LOG: 2. Generating instance of AppState.
+2022-05-09T00:06:41.088 INFO: Application successfully started
+2022-05-09T00:07:09.890 INFO: Application successfully started
+2022-05-09T00:07:33.387 LOG: 2. Generating instance of AppState.
+2022-05-09T00:07:33.418 INFO: Application successfully started
+2022-05-09T00:07:36.876 INFO: Application successfully started
+2022-05-09T00:07:42.181 INFO: Application successfully started
+2022-05-09T00:10:45.691 LOG: 2. Generating instance of AppState.
+2022-05-09T00:10:45.727 INFO: Application successfully started
+2022-05-09T00:10:50.974 WARN: User was not found in the database, please check ID entered was correct.
+2022-05-09T00:10:50.974 INFO: Application successfully started
+2022-05-09T00:33:29.820 LOG: 2. Generating instance of AppState.
+2022-05-09T00:33:29.856 INFO: Application successfully started
+2022-05-09T00:34:18.014 WARN: User email is already in use. Please try again with another email or login into previous made account.
+2022-05-09T00:34:18.014 INFO: Application successfully started
+2022-05-09T00:40:58.352 LOG: 2. Generating instance of AppState.
+2022-05-09T00:40:58.388 INFO: Application successfully started
+2022-05-09T00:41:10.341 LOG: 2. Generating instance of AppState.
+2022-05-09T00:41:10.376 INFO: Application successfully started
+2022-05-09T00:41:22.729 LOG: 2. Generating instance of AppState.
+2022-05-09T00:41:22.764 INFO: Application successfully started
