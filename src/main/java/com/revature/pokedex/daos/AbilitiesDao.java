@@ -1,10 +1,14 @@
 package com.revature.pokedex.daos;
 
 import com.revature.pokedex.models.Abilities;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 
 public class AbilitiesDao implements Crudable<Abilities> {
+
+    private Logger logger = Logger.getLogger();
+
     @Override
     public Abilities create(Abilities newObject) {
         return null;

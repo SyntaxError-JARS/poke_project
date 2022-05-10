@@ -1,8 +1,18 @@
 package com.revature.pokedex.services;
 
+import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.models.ElementType;
+import com.revature.pokedex.util.logging.Logger;
 
 public class ElementTypeServices implements Serviceable<ElementType> {
+    private final ElementTypeDao elementTypeDao;
+    private Logger logger = Logger.getLogger();
+
+
+    public ElementTypeServices(ElementTypeDao elementTypeDao) {
+        this.elementTypeDao = elementTypeDao;
+    }
+
     @Override
     public ElementType create(ElementType newObject) {
         return null;

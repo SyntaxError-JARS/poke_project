@@ -11,8 +11,12 @@ import java.io.IOException;
 
 public class TrainerServices implements Serviceable<Trainer>{
 
-    private TrainerDao trainerDao = new TrainerDao();
-    private Logger logger = Logger.getLogger(true);
+    private TrainerDao trainerDao;
+    private Logger logger = Logger.getLogger();
+
+    public TrainerServices(TrainerDao trainerDao) {
+        this.trainerDao = trainerDao;
+    }
 
     @Override
     public Trainer[] readAll(){

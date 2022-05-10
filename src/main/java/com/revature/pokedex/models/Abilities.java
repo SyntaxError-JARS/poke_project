@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Abilities {
     private String abilityName;
     private String atkMultiplier;
-    private String dmgType;
+    private int dmgType;
 
-    public Abilities(String abilityName, String atkMultiplier, String dmgType) {
+    public Abilities(String abilityName, String atkMultiplier, int dmgType) {
         this.abilityName = abilityName;
         this.atkMultiplier = atkMultiplier;
         this.dmgType = dmgType;
@@ -32,11 +32,11 @@ public class Abilities {
         this.atkMultiplier = atkMultiplier;
     }
 
-    public String getDmgType() {
+    public int getDmgType() {
         return dmgType;
     }
 
-    public void setDmgType(String dmgType) {
+    public void setDmgType(int dmgType) {
         this.dmgType = dmgType;
     }
 

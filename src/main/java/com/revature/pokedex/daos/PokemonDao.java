@@ -1,10 +1,14 @@
 package com.revature.pokedex.daos;
 
 import com.revature.pokedex.models.Pokemon;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 
 public class PokemonDao implements Crudable<Pokemon> {
+
+    private Logger logger = Logger.getLogger();
+
     @Override
     public Pokemon create(Pokemon newObject) {
         return null;

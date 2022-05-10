@@ -3,11 +3,14 @@ package com.revature.pokedex.daos;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.ConnectionFactory;
+import com.revature.pokedex.util.logging.Logger;
 
 import java.io.*;
 import java.sql.*;
 
 public class TrainerDao implements Crudable<Trainer>{
+
+    private Logger logger = Logger.getLogger();
 
     @Override
     public Trainer create(Trainer newTrainer) {

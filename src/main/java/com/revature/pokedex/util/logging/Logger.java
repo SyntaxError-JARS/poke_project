@@ -23,6 +23,15 @@ public class Logger {
         return logger;
     }
 
+    public static Logger getLogger(){
+        // logger is being lazily instantiated
+        if(logger == null){
+            logger = new Logger(true);
+        }
+
+        return logger;
+    }
+
     public void log(String message){
 
         try (Writer logWriter = new FileWriter("src/main/resources/pokedex.log", true);){
