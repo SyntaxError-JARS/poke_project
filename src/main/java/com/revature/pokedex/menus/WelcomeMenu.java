@@ -58,18 +58,17 @@ public class WelcomeMenu extends Menu{
                 System.out.println("User has selected register...");
                 RegisterMenu registerMenu = new RegisterMenu(terminalReader);
                 registerMenu.render();
-                // register(); // ctrl + left-click
                 break;
             case "3":
                 System.out.println("User has selected to find trainer by ID...");
                 System.out.println("Please enter the ID for specific trainer: ");
                 String id = terminalReader.readLine();
 
-                System.out.println(trainerServices.findTrainerById(id));
+                System.out.println(trainerServices.readById(id));
                 break;
             case "4":
                 System.out.println("User has selected view trainers...");
-                trainerServices.readTrainers();
+                trainerServices.readAll();
                 break;
             case "5":
                 System.out.println("User has selected exit...");

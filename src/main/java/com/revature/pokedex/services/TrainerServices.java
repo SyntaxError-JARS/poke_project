@@ -7,61 +7,33 @@ import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.logging.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
-public class TrainerServices {
+public class TrainerServices implements Serviceable<Trainer>{
 
     private TrainerDao trainerDao = new TrainerDao();
     private Logger logger = Logger.getLogger(true);
 
-    public void readTrainers(){
-        System.out.println("Begin reading Trainers in our file database.");
-        Trainer[] trainers;
+    @Override
+    public Trainer[] readAll(){
+        logger.info("Begin reading Trainers in our file database.");
+
 
         try {
             // TODO: What trainerDao intellisense telling me?
-            trainers = trainerDao.findAll();
-            System.out.println("All trainers have been found here are the results: \n");
-//            for (int i = 0; i < trainers.length; i++) {
-//                Trainer trainer = trainers[i];
-//                if(trainer != null) {
-//                    System.out.println(trainer);
-//                }
-//            }
-
-            // first time declaring variable you must defined data type (primitive or non-primitive)
-            // trainer is now declared as a reference variables for an instance of a Trainer class
-            // new keyword allows for the construction (or more technically the instantiation of a Trainer class with a No-Arg Construtor)
-            // new Trainer() is instantiating a new trainer object via the No-Args Constructor
-            Trainer trainer = new Trainer();
-
-            // TODO: Why is this declared as an Object and not a Trainer??
-            Object trainer1 = new Trainer("Charles", "Jester", "cj@mail.com", "p", "1111");
-
-            Trainer iCanNameThisWhatEverTheHeckoIWant = new Trainer();
-            System.out.println(iCanNameThisWhatEverTheHeckoIWant.getLname());
-
-            System.out.println(" ----------THIS THINGGGGGGGG--------------- ");
-            System.out.println(trainer1.toString());
-            System.out.println("-------------------------");
-            // the (Trainer) is casting the Object trainer1 in java's Heap Memory to view as a Trainer object instead
-            System.out.println(((Trainer) trainer1).getFname());
-
-            // forEach
-            for(Object t:trainers ){
-                if(t != null) {
-                    System.out.println((Trainer) t); // trainer indicates a single element in the trainers array
-                }
-            }
+            Trainer[] trainers = trainerDao.findAll();
+            logger.info("All trainers have been found here are the results: \n");
+//
+            return trainers;
 
         } catch (IOException | NullPointerException e) {
-             e.printStackTrace();
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public Trainer findTrainerById(String id){
+    @Override
+    public Trainer readById(String id){
         try {
             Trainer trainer = trainerDao.findById(id);
             return trainer;
@@ -70,18 +42,24 @@ public class TrainerServices {
             return null;
         }
     }
-    // TODO: Implement me to check that the email is not already in our database.
-    // public this allows the use of this method anywhere there is a TrainerServices object or within the class itself
-    // boolean - it's a true or false value in java and it's specifying the return type
-    // validateEmailNotUse() this is a method what we want to call to the DAO to check if the email is already in use
-    // String email is the defiend parameters for arguments required when invoking this method
+
+    @Override
+    public Trainer update(Trainer updatedObject) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(String id) {
+        return false;
+    }
+
     public boolean validateEmailNotUsed(String email){
         return trainerDao.checkEmail(email);
     }
     
-    public boolean registerTrainer(Trainer newTrainer){
-        System.out.println("Trainer trying to be registered: " + newTrainer);
-        if(!validateTrainerInput(newTrainer)){ // checking if false
+    public Trainer create(Trainer newTrainer){
+        logger.info("Trainer trying to be registered: " + newTrainer);
+        if(!validateInput(newTrainer)){ // checking if false
             // TODO: throw - what's this keyword?
             throw new InvalidRequestException("User input was not validated, either empty String or null values");
         }
@@ -96,12 +74,13 @@ public class TrainerServices {
         if(persistedTrainer == null){
             throw new ResourcePersistanceException("Trainer was not persisted to the database upon registration");
         }
-        System.out.println("Trainer has been persisted: " + newTrainer);
-        return true;
+        logger.info("Trainer has been persisted: " + newTrainer);
+        return persistedTrainer;
     }
 
-    private boolean validateTrainerInput(Trainer newTrainer) {
-        System.out.println("Validating Trainer: " + newTrainer);
+    @Override
+    public boolean validateInput(Trainer newTrainer) {
+        logger.debug("Validating Trainer: " + newTrainer);
         if(newTrainer == null) return false;
         if(newTrainer.getFname() == null || newTrainer.getFname().trim().equals("")) return false;
         if(newTrainer.getLname() == null || newTrainer.getLname().trim().equals("")) return false;

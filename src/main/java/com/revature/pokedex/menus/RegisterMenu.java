@@ -7,9 +7,6 @@ import com.revature.pokedex.services.TrainerServices;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 // Inheritance from menu abstract class :D another pillar of OOP
 public class RegisterMenu extends Menu{
@@ -62,7 +59,7 @@ public class RegisterMenu extends Menu{
 
         // How to fix this emptry
         try{
-            trainerServices.registerTrainer(newTrainer); // this is the risky code
+            trainerServices.create(newTrainer); // this is the risky code
         } catch(InvalidRequestException | ResourcePersistanceException e){
             logger.warn(e.getMessage());
         }
