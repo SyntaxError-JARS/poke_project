@@ -1,4 +1,6 @@
 package com.revature.pokedex.menus;
+import com.revature.pokedex.exceptions.AuthenticationException;
+import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
 import com.revature.pokedex.util.logging.Logger;
 
@@ -38,6 +40,19 @@ public class WelcomeMenu extends Menu{
         switch (userSelection) {
             case "1":
                 logger.info("User has selected login...");
+
+                System.out.print("Please enter email address: \n>");
+                String email = terminalReader.readLine();
+
+                System.out.print("Please enter password: \n>");
+                String password = terminalReader.readLine();
+
+                try {
+                    Trainer trainer = trainerServices.authenticateTrainer(email, password);
+                    System.out.println(trainer);
+                } catch (AuthenticationException e){
+                    e.printStackTrace();
+                }
                 break;
             case "2":
                 System.out.println("User has selected register...");

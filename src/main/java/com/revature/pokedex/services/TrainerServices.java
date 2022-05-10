@@ -1,6 +1,7 @@
 package com.revature.pokedex.services;
 
 import com.revature.pokedex.daos.TrainerDao;
+import com.revature.pokedex.exceptions.AuthenticationException;
 import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
@@ -107,5 +108,21 @@ public class TrainerServices {
         if(newTrainer.getEmail() == null || newTrainer.getEmail().trim().equals("")) return false;
         if(newTrainer.getPassword() == null || newTrainer.getPassword().trim().equals("")) return false;
         return newTrainer.getDob() != null || !newTrainer.getDob().trim().equals("");
+    }
+
+    public Trainer authenticateTrainer(String email, String password){
+
+        if(password == null || password.trim().equals("") || password == null || password.trim().equals("")) {
+            throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
+        }
+
+        Trainer authenticatedTrainer = trainerDao.authenticateTrainer(email, password);
+
+        if (authenticatedTrainer == null){
+            throw new AuthenticationException("Unauthenticated user, information provided was not consistent with our database.");
+        }
+
+        return authenticatedTrainer;
+
     }
 }

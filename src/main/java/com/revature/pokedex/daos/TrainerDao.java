@@ -134,6 +134,37 @@ public class TrainerDao implements Crudable<Trainer>{
         return false;
     }
 
+    public Trainer authenticateTrainer(String email, String password){
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "select * from trainer where email = ? and password = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.next()){
+                return null;
+            }
+
+            Trainer trainer = new Trainer();
+
+            trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
+            trainer.setLname(rs.getString("lname"));
+            trainer.setDob(rs.getString("dob"));
+            trainer.setPassword(rs.getString("password"));
+            trainer.setEmail(rs.getString("email"));
+
+            return trainer;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
     public boolean checkEmail(String email) {
 
         try(Connection conn = ConnectionFactory.getInstance().getConnection()){
@@ -148,7 +179,8 @@ public class TrainerDao implements Crudable<Trainer>{
             }
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
     }
 }
