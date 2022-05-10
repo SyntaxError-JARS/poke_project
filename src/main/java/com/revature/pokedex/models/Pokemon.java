@@ -5,7 +5,7 @@ public class Pokemon {
     private String pokemonName;
     private int hp;
     private int atk;
-    private String elementType;
+    private int elementType;
     private String ability1;
     private String ability2;
 
@@ -15,7 +15,7 @@ public class Pokemon {
         super();
     }
 
-    public Pokemon(String pokemonName, int hp, int atk, String elementType, String ability1, String ability2){
+    public Pokemon(String pokemonName, int hp, int atk, int elementType, String ability1, String ability2){
         super();
         this.pokemonName = pokemonName; // shadowing, with provided arguments
         this.hp = hp;
@@ -49,11 +49,11 @@ public class Pokemon {
         this.atk = atk;
     }
 
-    public String getElementType() {
+    public int getElementType() {
         return elementType;
     }
 
-    public void setElementType(String elementType) {
+    public void setElementType(int elementType) {
         this.elementType = elementType;
     }
 
