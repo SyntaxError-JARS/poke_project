@@ -1,5 +1,6 @@
 package com.revature.pokedex.menus;
 
+import com.revature.pokedex.daos.TrainerDao;
 import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
@@ -11,7 +12,7 @@ import java.io.BufferedReader;
 // Inheritance from menu abstract class :D another pillar of OOP
 public class RegisterMenu extends Menu{
 
-    private TrainerServices trainerServices = new TrainerServices();
+    private TrainerServices trainerServices = new TrainerServices(new TrainerDao());
     private final Logger logger = Logger.getLogger(false);
 
     public RegisterMenu(BufferedReader terminalReader) {

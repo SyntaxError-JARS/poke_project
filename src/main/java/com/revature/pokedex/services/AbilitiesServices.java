@@ -11,7 +11,7 @@ public class AbilitiesServices implements Serviceable<Abilities> {
     private final AbilitiesDao abilitiesDao;
     private Logger logger = Logger.getLogger();
 
-
+    // DI - Dependency Injection
     public AbilitiesServices(ElementTypeDao elementTypeDao, AbilitiesDao abilitiesDao) {
         this.elementTypeDao = elementTypeDao;
         this.abilitiesDao = abilitiesDao;

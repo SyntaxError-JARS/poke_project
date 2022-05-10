@@ -1,5 +1,6 @@
 package com.revature.pokedex.util;
 
+import com.revature.pokedex.daos.TrainerDao;
 import com.revature.pokedex.menus.RegisterMenu;
 import com.revature.pokedex.menus.WelcomeMenu;
 import com.revature.pokedex.services.TrainerServices;
@@ -23,7 +24,7 @@ public class AppState {
         logger.log("2. Generating instance of AppState.");
         isRunning = true;
         BufferedReader terminalReader = new BufferedReader(new InputStreamReader(System.in));
-        TrainerServices trainerServices = new TrainerServices();
+        TrainerServices trainerServices = new TrainerServices(new TrainerDao());
 
         // TODO: Why are we doing all of this!?
         this.welcomeMenu = new WelcomeMenu(terminalReader, trainerServices, logger);

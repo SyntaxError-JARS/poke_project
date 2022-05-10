@@ -64,3 +64,17 @@
 2022-05-09T23:33:12.120 LOG: 2. Generating instance of AppState.
 2022-05-09T23:33:12.155 INFO: Application successfully started
 2022-05-09T23:33:15.095 INFO: Application shutting down
+2022-05-10T11:35:34.016 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:36:13.574 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:39:27.581 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:39:36.890 INFO: Trainer trying to be registered: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:39:36.892 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:39:37.143 INFO: Trainer has been persisted: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:39:37.163 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:41:09.214 INFO: Trainer trying to be registered: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:41:09.216 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:41:09.431 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:44:22.753 INFO: Trainer trying to be registered: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:44:22.756 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:44:22.997 INFO: Trainer has been persisted: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
+2022-05-10T11:44:23.007 DEBUG: Validating Trainer: Trainer{fname='valid', lname='valid', email='valid', dob='valid'}
