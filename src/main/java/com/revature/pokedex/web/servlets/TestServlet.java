@@ -12,8 +12,8 @@ import java.io.IOException;
 public class TestServlet extends HttpServlet {
 
         @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            resp.getWriter().write("<h1>/test works!</h1>");
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+            resp.getWriter().write("<h1>/test works on our pokedex application!!</h1>");
         }
 
 }
