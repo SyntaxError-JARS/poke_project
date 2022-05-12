@@ -4,6 +4,8 @@ import com.revature.pokedex.daos.AbilitiesDao;
 import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.daos.PokemonDao;
 import com.revature.pokedex.models.Pokemon;
+import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 public class PokemonServices implements Serviceable<Pokemon> {

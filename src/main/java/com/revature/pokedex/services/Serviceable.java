@@ -1,5 +1,8 @@
 package com.revature.pokedex.services;
 
+import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.collections.List;
+
 public interface Serviceable<T> {
 
     // Create

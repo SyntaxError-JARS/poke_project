@@ -5,6 +5,7 @@ import com.revature.pokedex.exceptions.AuthenticationException;
 import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;

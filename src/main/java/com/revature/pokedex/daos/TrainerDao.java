@@ -14,7 +14,7 @@ public class TrainerDao implements Crudable<Trainer>{
 
     @Override
     public Trainer create(Trainer newTrainer) {
-        logger.log("Here is the newTrainer as it enters our DAO layer: "+ newTrainer); // What happens here? Java knows to invoke the toString() method when printing the object to the terminal
+        System.out.println("Here is the newTrainer as it enters our DAO layer: "+ newTrainer); // What happens here? Java knows to invoke the toString() method when printing the object to the terminal
 
         try(Connection conn = ConnectionFactory.getInstance().getConnection();) {
 
@@ -26,6 +26,9 @@ public class TrainerDao implements Crudable<Trainer>{
             String sql = "insert into trainer (fname, lname, email, password, dob) values (?, ?, ?, ?, ?)";
 
             PreparedStatement ps = conn.prepareStatement(sql);
+
+            System.out.println(newTrainer.getFname());
+            System.out.println(newTrainer.getLname());
 
             // 1-indexed, so first ? starts are 1
             ps.setString(1, newTrainer.getFname());
@@ -49,7 +52,6 @@ public class TrainerDao implements Crudable<Trainer>{
 
     @Override
     public Trainer[] findAll() throws IOException {
-        logger.info("User request to find all user data");
 
         // making an array of Trainer classes, and seetting it to a max size of 10
         Trainer[] trainers = new Trainer[10];
@@ -75,8 +77,10 @@ public class TrainerDao implements Crudable<Trainer>{
                 trainer.setPassword(rs.getString("password"));
                 trainer.setEmail(rs.getString("email"));
 
+                System.out.println("Inserted trainer into index" + index);
                 trainers[index] = trainer;
                 index++; // increment the index by 1, must occur after the trainer[index] re-assignment
+                System.out.println("Going to the next line for our following index.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,7 +89,7 @@ public class TrainerDao implements Crudable<Trainer>{
 
 
 
-        logger.info("Returning trainers infomation to user.");
+        System.out.println("Returning trainers infomation to user.");
         return trainers;
     }
 

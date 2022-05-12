@@ -3,6 +3,8 @@ package com.revature.pokedex.services;
 import com.revature.pokedex.daos.AbilitiesDao;
 import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.models.Abilities;
+import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 public class AbilitiesServices implements Serviceable<Abilities> {
