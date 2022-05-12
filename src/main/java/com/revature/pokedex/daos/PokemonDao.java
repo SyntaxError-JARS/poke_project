@@ -2,12 +2,13 @@ package com.revature.pokedex.daos;
 
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Pokemon;
-import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.ConnectionFactory;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PokemonDao implements Crudable<Pokemon> {
 
@@ -43,9 +44,8 @@ public class PokemonDao implements Crudable<Pokemon> {
     }
 
     @Override
-    public Pokemon[] findAll() throws IOException {
-        Pokemon[] pokemons = new Pokemon[10];
-        int index = 0;
+    public List<Pokemon> findAll() throws IOException {
+        List<Pokemon> pokemons = new LinkedList<>();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) {
 
@@ -64,8 +64,7 @@ public class PokemonDao implements Crudable<Pokemon> {
                 pokemon.setAbility1(rs.getString("ability1"));
                 pokemon.setAbility2(rs.getString("ability2"));
 
-                pokemons[index] = pokemon;
-                index++;
+                pokemons.add(pokemon);
             }
         } catch (SQLException e) {
             e.printStackTrace();

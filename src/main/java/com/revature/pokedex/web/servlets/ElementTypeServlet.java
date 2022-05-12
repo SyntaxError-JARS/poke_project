@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class ElementTypeServlet extends HttpServlet {
     private final ElementTypeServices elementTypeServices;
@@ -31,7 +32,7 @@ public class ElementTypeServlet extends HttpServlet {
             return;
         }
 
-        ElementType[] elementTypes = elementTypeServices.readAll();
+        List<ElementType> elementTypes = elementTypeServices.readAll();
         String payload = mapper.writeValueAsString(elementTypes);
 
         resp.getWriter().write(payload);

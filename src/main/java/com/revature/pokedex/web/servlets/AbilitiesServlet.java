@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class AbilitiesServlet extends HttpServlet {
 
@@ -30,7 +31,7 @@ public class AbilitiesServlet extends HttpServlet {
             return;
         }
 
-        Abilities[] abilities = abilitiesServices.readAll();
+        List<Abilities> abilities = abilitiesServices.readAll();
         String payload = mapper.writeValueAsString(abilities);
 
         resp.getWriter().write(payload);

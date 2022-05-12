@@ -5,10 +5,10 @@ import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.daos.PokemonDao;
 import com.revature.pokedex.models.Pokemon;
 import com.revature.pokedex.models.Trainer;
-import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PokemonServices implements Serviceable<Pokemon> {
     private final PokemonDao pokemonDao;
@@ -29,7 +29,7 @@ public class PokemonServices implements Serviceable<Pokemon> {
     }
 
     @Override
-    public Pokemon[] readAll() {
+    public List<Pokemon> readAll() {
         try {
             return pokemonDao.findAll();
         } catch (IOException e) {

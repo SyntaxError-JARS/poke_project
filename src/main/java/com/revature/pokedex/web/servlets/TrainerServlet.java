@@ -6,9 +6,7 @@ import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
 import com.revature.pokedex.util.collections.LinkedList;
-import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
-import sun.awt.image.ImageWatched;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.revature.pokedex.web.servlets.Authable.checkAuth;
 
@@ -62,12 +61,8 @@ public class TrainerServlet extends HttpServlet implements Authable {
             return;
         }
 
-        Trainer[] trainers = trainerServices.readAll();
-        List<Trainer> trainerList = new LinkedList<>();
-        for(Trainer trainer:trainers){
-            trainerList.add(trainer);
-        }
-        String payload = mapper.writeValueAsString(trainerList);
+        List<Trainer> trainers = trainerServices.readAll();
+        String payload = mapper.writeValueAsString(trainers);
 
         resp.getWriter().write(payload);
     }

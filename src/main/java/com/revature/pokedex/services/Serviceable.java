@@ -1,7 +1,8 @@
 package com.revature.pokedex.services;
 
 import com.revature.pokedex.models.Trainer;
-import com.revature.pokedex.util.collections.List;
+
+import java.util.List;
 
 public interface Serviceable<T> {
 
@@ -9,7 +10,7 @@ public interface Serviceable<T> {
     T create(T newObject);
 
     // Read
-    T[] readAll();
+    List<T> readAll();
     T readById(String id);
 
     // Update

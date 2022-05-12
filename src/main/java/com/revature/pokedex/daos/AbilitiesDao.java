@@ -8,6 +8,9 @@ import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AbilitiesDao implements Crudable<Abilities> {
 
@@ -40,9 +43,8 @@ public class AbilitiesDao implements Crudable<Abilities> {
     }
 
     @Override
-    public Abilities[] findAll() throws IOException {
-        Abilities[] abilities = new Abilities[10];
-        int index = 0;
+    public List<Abilities> findAll() throws IOException {
+        List<Abilities> abilities = new LinkedList<>();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
@@ -58,8 +60,7 @@ public class AbilitiesDao implements Crudable<Abilities> {
                 ability.setAtkMultiplier(rs.getInt("atk_multiplier"));
                 ability.setDmgType(rs.getInt("dmg_type"));
 
-                abilities[index] = ability;
-                index++;
+                abilities.add(ability);
             }
         } catch (SQLException e) {
             e.printStackTrace();

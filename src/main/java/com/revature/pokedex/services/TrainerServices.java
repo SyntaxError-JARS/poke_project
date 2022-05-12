@@ -5,10 +5,10 @@ import com.revature.pokedex.exceptions.AuthenticationException;
 import com.revature.pokedex.exceptions.InvalidRequestException;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
-import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TrainerServices implements Serviceable<Trainer>{
 
@@ -20,13 +20,13 @@ public class TrainerServices implements Serviceable<Trainer>{
     }
 
     @Override
-    public Trainer[] readAll(){
+    public List<Trainer> readAll(){
         logger.info("Begin reading Trainers in our file database.");
 
 
         try {
             // TODO: What trainerDao intellisense telling me?
-            Trainer[] trainers = trainerDao.findAll();
+            List<Trainer> trainers = trainerDao.findAll();
             logger.info("All trainers have been found here are the results: \n");
             return trainers;
 

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+
 import static com.revature.pokedex.web.servlets.Authable.checkAuth;
 
 public class PokemonServlet extends HttpServlet implements Authable {
@@ -37,7 +39,7 @@ public class PokemonServlet extends HttpServlet implements Authable {
             return;
         }
 
-        Pokemon[] pokemons = pokemonServices.readAll();
+        List<Pokemon> pokemons = pokemonServices.readAll();
         String payload = mapper.writeValueAsString(pokemons);
 
         resp.getWriter().write(payload);

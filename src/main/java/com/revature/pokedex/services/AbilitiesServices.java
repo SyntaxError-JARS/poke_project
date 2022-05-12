@@ -4,10 +4,10 @@ import com.revature.pokedex.daos.AbilitiesDao;
 import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.models.Trainer;
-import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AbilitiesServices implements Serviceable<Abilities> {
 
@@ -27,7 +27,7 @@ public class AbilitiesServices implements Serviceable<Abilities> {
     }
 
     @Override
-    public Abilities[] readAll() {
+    public List<Abilities> readAll() {
         try {
             return abilitiesDao.findAll();
         } catch (IOException e) {

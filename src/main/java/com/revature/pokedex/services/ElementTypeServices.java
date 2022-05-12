@@ -3,10 +3,10 @@ package com.revature.pokedex.services;
 import com.revature.pokedex.daos.ElementTypeDao;
 import com.revature.pokedex.models.ElementType;
 import com.revature.pokedex.models.Trainer;
-import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ElementTypeServices implements Serviceable<ElementType> {
     private final ElementTypeDao elementTypeDao;
@@ -23,7 +23,7 @@ public class ElementTypeServices implements Serviceable<ElementType> {
     }
 
     @Override
-    public ElementType[] readAll() {
+    public List<ElementType> readAll() {
         try {
             return elementTypeDao.findAll();
         } catch (IOException e) {

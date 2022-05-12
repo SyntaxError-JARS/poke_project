@@ -8,6 +8,8 @@ import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ElementTypeDao implements Crudable<ElementType> {
 
@@ -37,9 +39,8 @@ public class ElementTypeDao implements Crudable<ElementType> {
     }
 
     @Override
-    public ElementType[] findAll() throws IOException {
-        ElementType[] elementTypes = new ElementType[10];
-        int index = 0;
+    public List<ElementType> findAll() throws IOException {
+        List<ElementType> elementTypes = new LinkedList<>();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
@@ -53,8 +54,7 @@ public class ElementTypeDao implements Crudable<ElementType> {
 
                 elementType.setType(rs.getString("type"));
 
-                elementTypes[index] = elementType;
-                index++;
+                elementTypes.add(elementType);
             }
         } catch (SQLException e) {
             e.printStackTrace();

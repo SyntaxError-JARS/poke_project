@@ -1,8 +1,10 @@
 package com.revature.pokedex.util.collections;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.revature.pokedex.util.collections.serializers.LinkedListSerializerAbilties;
+import com.revature.pokedex.util.collections.serializers.LinkedListSerializerTrainer;
 
-@JsonSerialize(using = LinkedListSerializer.class)
+@JsonSerialize(using = LinkedListSerializerTrainer.class)
 public class LinkedList <T> implements List<T>{
 
     private int size;

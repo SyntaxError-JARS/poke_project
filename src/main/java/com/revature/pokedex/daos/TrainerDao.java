@@ -7,6 +7,8 @@ import com.revature.pokedex.util.logging.Logger;
 
 import java.io.*;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TrainerDao implements Crudable<Trainer>{
 
@@ -51,12 +53,9 @@ public class TrainerDao implements Crudable<Trainer>{
     }
 
     @Override
-    public Trainer[] findAll() throws IOException {
+    public List<Trainer> findAll() throws IOException {
 
-        // making an array of Trainer classes, and seetting it to a max size of 10
-        Trainer[] trainers = new Trainer[10];
-        // declaring index variable as an int and intiliazation witht he value of 0
-        int index = 0; // we want to keep track of where we are placing each trainer from the file into the the array
+        List<Trainer> trainers = new LinkedList<>();
 
         // TODO: we trying something here and passing an argumetn???
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
@@ -77,10 +76,7 @@ public class TrainerDao implements Crudable<Trainer>{
                 trainer.setPassword(rs.getString("password"));
                 trainer.setEmail(rs.getString("email"));
 
-                System.out.println("Inserted trainer into index" + index);
-                trainers[index] = trainer;
-                index++; // increment the index by 1, must occur after the trainer[index] re-assignment
-                System.out.println("Going to the next line for our following index.");
+                trainers.add(trainer);
             }
         } catch (SQLException e) {
             e.printStackTrace();

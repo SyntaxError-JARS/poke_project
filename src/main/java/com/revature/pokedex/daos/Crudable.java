@@ -2,6 +2,7 @@ package com.revature.pokedex.daos;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 // This is another form of abstraction
 public interface Crudable<T> {
@@ -12,7 +13,7 @@ public interface Crudable<T> {
     T create(T newObject);
 
     // Read
-    T[]  findAll() throws IOException;
+    List<T> findAll() throws IOException;
     T findById(String id);
 
     // Update

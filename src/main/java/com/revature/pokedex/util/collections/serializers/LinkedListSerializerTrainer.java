@@ -1,19 +1,20 @@
-package com.revature.pokedex.util.collections;
+package com.revature.pokedex.util.collections.serializers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.revature.pokedex.models.Trainer;
+import com.revature.pokedex.util.collections.LinkedList;
 
 import java.io.IOException;
 
-public class LinkedListSerializer extends StdSerializer<LinkedList> {
+public class LinkedListSerializerTrainer extends StdSerializer<LinkedList> {
 
-    public LinkedListSerializer() {
+    public LinkedListSerializerTrainer() {
         this(null);
     }
 
-    public LinkedListSerializer(Class<LinkedList> t) {
+    public LinkedListSerializerTrainer(Class<LinkedList> t) {
         super(t);
     }
 
