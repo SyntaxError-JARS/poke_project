@@ -27,7 +27,6 @@ public class TrainerServices implements Serviceable<Trainer>{
             // TODO: What trainerDao intellisense telling me?
             Trainer[] trainers = trainerDao.findAll();
             logger.info("All trainers have been found here are the results: \n");
-//
             return trainers;
 
         } catch (IOException | NullPointerException e) {
