@@ -2,10 +2,13 @@ package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pokedex.daos.TrainerDao;
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
+import com.revature.pokedex.util.collections.LinkedList;
 import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
+import sun.awt.image.ImageWatched;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static com.revature.pokedex.web.servlets.Authable.checkAuth;
+
 // @WebServlet("/trainers")
-public class TrainerServlet extends HttpServlet {
+public class TrainerServlet extends HttpServlet implements Authable {
 
     private final TrainerServices trainerServices;
     private final ObjectMapper mapper;
@@ -31,15 +36,38 @@ public class TrainerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(!checkAuth(req, resp)) return;
+//        String pathInfo = req.getPathInfo();
+//        String[] pathParts = pathInfo.split("/");
+//        System.out.println(pathParts[0] + pathParts[1] + pathParts[2]);
+
+
+        if(req.getParameter("id") != null && req.getParameter("email") != null){
+            resp.getWriter().write("Hey you have the follow id and email " + req.getParameter("id") + " " + req.getParameter("email") );
+            return;
+        }
+
         if(req.getParameter("id") != null){
-            Trainer trainer = trainerServices.readById(req.getParameter("id"));
+            Trainer trainer;
+            try {
+                trainer = trainerServices.readById(req.getParameter("id")); // EVERY PARAMETER RETURN FROM A URL IS A STRING
+            } catch (ResourcePersistanceException e){
+                logger.warn(e.getMessage());
+                resp.setStatus(404);
+                resp.getWriter().write(e.getMessage());
+                return;
+            }
             String payload = mapper.writeValueAsString(trainer);
             resp.getWriter().write(payload);
             return;
         }
 
         Trainer[] trainers = trainerServices.readAll();
-        String payload = mapper.writeValueAsString(trainers);
+        List<Trainer> trainerList = new LinkedList<>();
+        for(Trainer trainer:trainers){
+            trainerList.add(trainer);
+        }
+        String payload = mapper.writeValueAsString(trainerList);
 
         resp.getWriter().write(payload);
     }
@@ -48,6 +76,5 @@ public class TrainerServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
-
 
 }

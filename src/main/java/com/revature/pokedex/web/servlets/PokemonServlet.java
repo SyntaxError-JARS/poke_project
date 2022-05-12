@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import static com.revature.pokedex.web.servlets.Authable.checkAuth;
 
-public class PokemonServlet extends HttpServlet {
+public class PokemonServlet extends HttpServlet implements Authable {
 
     private final PokemonServices pokemonServices;
     private final ObjectMapper mapper;
@@ -45,21 +46,17 @@ public class PokemonServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
 
-            Pokemon pokemon = mapper.readValue(req.getInputStream(), Pokemon.class);
-            Pokemon newPokemon = pokemonServices.create(pokemon);
+        if(!checkAuth(req, resp)) return;
+        // TODO: Let's create a pokemon
+        Pokemon newPokemon = mapper.readValue(req.getInputStream(), Pokemon.class); // from JSON to Java Object (Pokemon)
+        Pokemon persistedPokemon = pokemonServices.create(newPokemon);
 
-            String payload = mapper.writeValueAsString(newPokemon);
-            resp.getWriter().write("Here is what you enter into our database");
-            resp.getWriter().write(payload);
-            resp.setStatus(201);
+        String payload = mapper.writeValueAsString(persistedPokemon); // Mapping from Java Object (Pokemon) to JSON
 
-        } catch (Exception e){
-            resp.setStatus(500);
-            resp.getWriter().write(e.getMessage());
-        }
-
+        resp.getWriter().write("Persisted the provided pokemon as show below \n");
+        resp.getWriter().write(payload);
+        resp.setStatus(201);
     }
 
     @Override
