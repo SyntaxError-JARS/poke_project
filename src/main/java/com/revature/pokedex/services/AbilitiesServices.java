@@ -7,6 +7,8 @@ import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
+import java.io.IOException;
+
 public class AbilitiesServices implements Serviceable<Abilities> {
 
     private final ElementTypeDao elementTypeDao;
@@ -20,22 +22,26 @@ public class AbilitiesServices implements Serviceable<Abilities> {
     }
 
     @Override
-    public Abilities create(Abilities newObject) {
-        return null;
+    public Abilities create(Abilities newAbilities) {
+        return abilitiesDao.create(newAbilities);
     }
 
     @Override
     public Abilities[] readAll() {
-        return new Abilities[0];
+        try {
+            return abilitiesDao.findAll();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public Abilities readById(String id) {
-        return null;
+    public Abilities readById(String abilityName) {
+        return abilitiesDao.findById(abilityName);
     }
 
     @Override
-    public Abilities update(Abilities updatedObject) {
+    public Abilities update(Abilities updatedAbilities) {
         return null;
     }
 

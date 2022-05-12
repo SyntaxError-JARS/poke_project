@@ -1,31 +1,98 @@
 package com.revature.pokedex.daos;
 
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
+import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.models.ElementType;
+import com.revature.pokedex.util.ConnectionFactory;
 import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class ElementTypeDao implements Crudable<ElementType> {
 
     private Logger logger = Logger.getLogger();
 
     @Override
-    public ElementType create(ElementType newObject) {
-        return null;
+    public ElementType create(ElementType newElementType) {
+        try(Connection conn = ConnectionFactory.getInstance().getConnection();) {
+
+            String sql = "insert into elemental_type values (default, ?)";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            // 1-indexed, so first ? starts are 1
+            ps.setString(1, newElementType.getType());
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new ResourcePersistanceException("ElementType was not entered into database due to some issue.");
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return newElementType;
     }
 
     @Override
     public ElementType[] findAll() throws IOException {
-        return new ElementType[0];
+        ElementType[] elementTypes = new ElementType[10];
+        int index = 0;
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
+
+            String sql = "select * from elemental_type";
+            Statement s = conn.createStatement();
+
+            ResultSet rs =s.executeQuery(sql);
+
+            while (rs.next()) {
+                ElementType elementType = new ElementType();
+
+                elementType.setType(rs.getString("type"));
+
+                elementTypes[index] = elementType;
+                index++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return elementTypes;
     }
 
     @Override
     public ElementType findById(String id) {
-        return null;
+        try(Connection conn = ConnectionFactory.getInstance().getConnection();){
+
+            String sql = "select * from elemental_type where id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, Integer.parseInt(id)); // Wrapper class example
+
+            ResultSet rs = ps.executeQuery(); // remember dql, bc selects are the keywords
+
+            if(!rs.next()){
+                throw new ResourcePersistanceException("Element type was not found in the database, please check ID entered was correct.");
+            }
+
+            ElementType elementType = new ElementType();
+
+            elementType.setType(rs.getString("type"));
+            return elementType;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public boolean update(ElementType updatedObj) {
+    public boolean update(ElementType updatedElementType) {
         return false;
     }
 

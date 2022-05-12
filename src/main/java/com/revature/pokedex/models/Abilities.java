@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Abilities {
     private String abilityName;
-    private String atkMultiplier;
+    private int atkMultiplier;
     private int dmgType;
 
-    public Abilities(String abilityName, String atkMultiplier, int dmgType) {
+    public Abilities(String abilityName, int atkMultiplier, int dmgType) {
         this.abilityName = abilityName;
         this.atkMultiplier = atkMultiplier;
         this.dmgType = dmgType;
@@ -24,11 +24,11 @@ public class Abilities {
         this.abilityName = abilityName;
     }
 
-    public String getAtkMultiplier() {
+    public int getAtkMultiplier() {
         return atkMultiplier;
     }
 
-    public void setAtkMultiplier(String atkMultiplier) {
+    public void setAtkMultiplier(int atkMultiplier) {
         this.atkMultiplier = atkMultiplier;
     }
 

@@ -1,5 +1,7 @@
 package com.revature.pokedex.models;
 
+
+
 public class Trainer {
 
     // Encapsulated these variables/attributes to the class or instance thereof

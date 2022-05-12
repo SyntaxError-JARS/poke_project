@@ -8,6 +8,8 @@ import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
+import java.io.IOException;
+
 public class PokemonServices implements Serviceable<Pokemon> {
     private final PokemonDao pokemonDao;
     private final ElementTypeDao elementTypeDao;
@@ -22,22 +24,26 @@ public class PokemonServices implements Serviceable<Pokemon> {
     }
 
     @Override
-    public Pokemon create(Pokemon newObject) {
-        return null;
+    public Pokemon create(Pokemon newPokemon) {
+        return pokemonDao.create(newPokemon);
     }
 
     @Override
     public Pokemon[] readAll() {
-        return new Pokemon[0];
+        try {
+            return pokemonDao.findAll();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Pokemon readById(String id) {
-        return null;
+        return pokemonDao.findById(id);
     }
 
     @Override
-    public Pokemon update(Pokemon updatedObject) {
+    public Pokemon update(Pokemon updatedPokemon) {
         return null;
     }
 

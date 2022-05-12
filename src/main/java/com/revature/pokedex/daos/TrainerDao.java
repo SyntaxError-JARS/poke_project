@@ -128,7 +128,7 @@ public class TrainerDao implements Crudable<Trainer>{
     }
 
     @Override
-    public boolean update(Trainer updatedObj) {
+    public boolean update(Trainer updatedTrainer) {
         return false;
     }
 

@@ -31,6 +31,13 @@ public class TrainerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(req.getParameter("id") != null){
+            Trainer trainer = trainerServices.readById(req.getParameter("id"));
+            String payload = mapper.writeValueAsString(trainer);
+            resp.getWriter().write(payload);
+            return;
+        }
+
         Trainer[] trainers = trainerServices.readAll();
         String payload = mapper.writeValueAsString(trainers);
 

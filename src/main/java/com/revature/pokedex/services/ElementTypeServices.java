@@ -6,6 +6,8 @@ import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.util.collections.List;
 import com.revature.pokedex.util.logging.Logger;
 
+import java.io.IOException;
+
 public class ElementTypeServices implements Serviceable<ElementType> {
     private final ElementTypeDao elementTypeDao;
     private Logger logger = Logger.getLogger();
@@ -16,22 +18,26 @@ public class ElementTypeServices implements Serviceable<ElementType> {
     }
 
     @Override
-    public ElementType create(ElementType newObject) {
-        return null;
+    public ElementType create(ElementType newElementType) {
+        return elementTypeDao.create(newElementType);
     }
 
     @Override
     public ElementType[] readAll() {
-        return new ElementType[0];
+        try {
+            return elementTypeDao.findAll();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public ElementType readById(String id) {
-        return null;
+       return elementTypeDao.findById(id);
     }
 
     @Override
-    public ElementType update(ElementType updatedObject) {
+    public ElementType update(ElementType updatedElementType) {
         return null;
     }
 
