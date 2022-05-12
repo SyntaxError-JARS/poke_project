@@ -37,14 +37,10 @@ public class TrainerServices implements Serviceable<Trainer>{
     }
 
     @Override
-    public Trainer readById(String id){
-        try {
-            Trainer trainer = trainerDao.findById(id);
-            return trainer;
-        } catch (ResourcePersistanceException e){
-            logger.warn(e.getMessage());
-            return null;
-        }
+    public Trainer readById(String id) throws ResourcePersistanceException{
+
+        Trainer trainer = trainerDao.findById(id);
+        return trainer;
     }
 
     @Override

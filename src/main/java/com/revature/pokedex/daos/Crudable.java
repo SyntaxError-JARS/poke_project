@@ -12,7 +12,7 @@ public interface Crudable<T> {
     T create(T newObject);
 
     // Read
-    T[] findAll() throws IOException;
+    T[]  findAll() throws IOException;
     T findById(String id);
 
     // Update
