@@ -1,21 +1,16 @@
 package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pokedex.daos.TrainerDao;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
-import com.revature.pokedex.util.collections.LinkedList;
 import com.revature.pokedex.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.revature.pokedex.web.servlets.Authable.checkAuth;
@@ -36,16 +31,19 @@ public class TrainerServlet extends HttpServlet implements Authable {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if(!checkAuth(req, resp)) return;
+        // The below code allows to split information from the endpoint after the /trainers/. Reminder the first element is empty because it takes the value from before the first /
 //        String pathInfo = req.getPathInfo();
 //        String[] pathParts = pathInfo.split("/");
 //        System.out.println(pathParts[0] + pathParts[1] + pathParts[2]);
 
 
+        // Handling the query params in the /trainers?id=x&email=y
         if(req.getParameter("id") != null && req.getParameter("email") != null){
             resp.getWriter().write("Hey you have the follow id and email " + req.getParameter("id") + " " + req.getParameter("email") );
             return;
         }
 
+        // Handling the query params in the endpoint /trainers?id=x
         if(req.getParameter("id") != null){
             Trainer trainer;
             try {

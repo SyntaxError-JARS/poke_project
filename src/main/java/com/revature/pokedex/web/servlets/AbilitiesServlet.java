@@ -3,6 +3,7 @@ package com.revature.pokedex.web.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.services.AbilitiesServices;
+import com.revature.pokedex.util.collections.serializers.LinkedListSerializerAbilties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +40,14 @@ public class AbilitiesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Abilities abilities = mapper.readValue(req.getInputStream(), Abilities.class);
+        Abilities ability = abilitiesServices.create(abilities);
+
+        String payload = mapper.writeValueAsString(ability);
+
+        resp.getWriter().write(payload);
+        resp.setStatus(201);
 
     }
 

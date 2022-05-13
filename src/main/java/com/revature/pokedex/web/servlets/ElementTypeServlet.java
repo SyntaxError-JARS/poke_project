@@ -1,8 +1,6 @@
 package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pokedex.daos.ElementTypeDao;
-import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.models.ElementType;
 import com.revature.pokedex.services.ElementTypeServices;
 
@@ -40,6 +38,13 @@ public class ElementTypeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        ElementType elementType = mapper.readValue(req.getInputStream(), ElementType.class);
+        ElementType persistedElementType = elementTypeServices.create(elementType);
+
+        String payload = mapper.writeValueAsString(persistedElementType);
+        resp.getWriter().write(payload);
+        resp.setStatus(201);
 
     }
 

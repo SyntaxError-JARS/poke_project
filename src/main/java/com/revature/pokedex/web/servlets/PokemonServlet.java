@@ -1,20 +1,13 @@
 package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pokedex.daos.PokemonDao;
-import com.revature.pokedex.exceptions.AuthenticationException;
-import com.revature.pokedex.exceptions.InvalidRequestException;
-import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.models.Pokemon;
-import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.PokemonServices;
-import com.revature.pokedex.web.dto.LoginCreds;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
