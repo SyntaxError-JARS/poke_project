@@ -124,8 +124,7 @@ values
 
 -----------------------------------------
 ---------------CR(ead)UD-----------------
-select * from pokemon p ;
-select * from abilities a ;
+
 
 -- joins
 
@@ -152,6 +151,10 @@ select * from pokemon_abilities;
 
 select * from trainer;
 
+select * from elemental_type et ;
+
+select * from pokemon p ;
+select * from abilities a ;
 -------------Read End--------------------
 
 -----------------------------------------
@@ -164,6 +167,6 @@ select * from trainer;
 -----------------------------------------
 -------------CRUD(elete)-----------------
 
-
+delete from trainer where fname = 'valid';
 
 -------------Delete End------------------
