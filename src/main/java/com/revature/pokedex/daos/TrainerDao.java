@@ -58,7 +58,7 @@ public class TrainerDao implements Crudable<Trainer>{
         List<Trainer> trainers = new LinkedList<>();
 
         // TODO: we trying something here and passing an argumetn???
-        try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
             String sql = "select * from trainer";
             Statement s = conn.createStatement();
@@ -125,12 +125,49 @@ public class TrainerDao implements Crudable<Trainer>{
 
     @Override
     public boolean update(Trainer updatedTrainer) {
-        return false;
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "update trainer set fname = ?, lname = ?, email = ?, password = ?, dob = ? where email = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, updatedTrainer.getFname());
+            ps.setString(2, updatedTrainer.getLname());
+            ps.setString(3, updatedTrainer.getEmail());
+            ps.setString(4, updatedTrainer.getPassword());
+            ps.setString(5, updatedTrainer.getDob());
+            ps.setString(6, updatedTrainer.getEmail());
+
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new ResourcePersistanceException("User was not entered into database due to some issue.");
+            }
+
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public boolean delete(String id) {
-        return false;
+    public boolean delete(String email) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "delete from trainer where email = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new ResourcePersistanceException("User was not deleted from database due to some issue.");
+            }
+
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Trainer authenticateTrainer(String email, String password){

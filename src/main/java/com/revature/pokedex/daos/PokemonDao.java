@@ -106,11 +106,50 @@ public class PokemonDao implements Crudable<Pokemon> {
 
     @Override
     public boolean update(Pokemon updatedPokemon) {
-        return false;
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "update pokemon set pokemon_name = ?, hp = ?, atk = ?, element_type = ?, ability1 = ?, ability2 = ? where pokemon_name = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, updatedPokemon.getPokemonName());
+            ps.setInt(2, updatedPokemon.getHp());
+            ps.setInt(3, updatedPokemon.getAtk());
+            ps.setInt(4, updatedPokemon.getElementType());
+            ps.setString(5, updatedPokemon.getAbility1());
+            ps.setString(6, updatedPokemon.getAbility2());
+            ps.setString(7, updatedPokemon.getPokemonName());
+
+
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new ResourcePersistanceException("Pokemon was not entered into database due to some issue.");
+            }
+
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public boolean delete(String id) {
-        return false;
+    public boolean delete(String name) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+            String sql = "delete from pokemon where pokemon_name = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+
+            int checkInsert = ps.executeUpdate();
+
+            if(checkInsert == 0){
+                throw new ResourcePersistanceException("Pokemon was not deleted from database due to some issue.");
+            }
+
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

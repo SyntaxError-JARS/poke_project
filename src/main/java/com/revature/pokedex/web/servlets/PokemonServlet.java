@@ -1,7 +1,9 @@
 package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.pokedex.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.models.Pokemon;
+import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.PokemonServices;
 
 import javax.servlet.ServletException;
@@ -56,14 +58,37 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!checkAuth(req, resp)) return;
 
+        Pokemon pokemonUpdate = mapper.readValue(req.getInputStream(), Pokemon.class);
+        Pokemon updatedPokemon = pokemonServices.update(pokemonUpdate);
+
+        String payload = mapper.writeValueAsString(updatedPokemon);
+        resp.getWriter().write(payload);
 
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(!checkAuth(req, resp)) return;
+        if(req.getParameter("pokemonName") == null){
+            resp.getWriter().write("In order to delete, please provide your the pokemonName into the url with ?pokemonName=example-mander");
+            resp.setStatus(401);
+            return;
+        }
+        String pokemonName = req.getParameter("pokemonName");
 
+        try {
+            pokemonServices.delete(pokemonName);
+            resp.getWriter().write("Delete pokemon from the database");
+        } catch (ResourcePersistanceException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(404);
+        } catch (Exception e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(500);
+        }
     }
 
 }

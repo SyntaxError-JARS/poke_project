@@ -2,6 +2,7 @@ package com.revature.pokedex.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pokedex.exceptions.ResourcePersistanceException;
+import com.revature.pokedex.models.Pokemon;
 import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
 import com.revature.pokedex.util.logging.Logger;
@@ -68,6 +69,65 @@ public class TrainerServlet extends HttpServlet implements Authable {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if(!checkAuth(req, resp)) return;
+        Trainer authTrainer = (Trainer) req.getSession().getAttribute("authTrainer");
+
+        Trainer reqTrainer = mapper.readValue(req.getInputStream(), Trainer.class);
+
+        if(authTrainer.getEmail().equals(reqTrainer.getEmail())) {
+
+            Trainer updatedTrainer = trainerServices.update(reqTrainer);
+
+            String payload = mapper.writeValueAsString(updatedTrainer);
+            resp.getWriter().write(payload);
+        } else {
+            resp.getWriter().write("Email provided does not match the user currently logged in");
+            resp.setStatus(403);
+        }
+
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Trainer trainer = mapper.readValue(req.getInputStream(), Trainer.class); // from JSON to Java Object (Pokemon)
+        Trainer persistedTrainer = trainerServices.create(trainer);
+
+        String payload = mapper.writeValueAsString(persistedTrainer); // Mapping from Java Object (Pokemon) to JSON
+
+        resp.getWriter().write("Persisted the provided trainer as show below \n");
+        resp.getWriter().write(payload);
+        resp.setStatus(201);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if(!checkAuth(req,resp)) return;
+        if(req.getParameter("email") == null){
+            resp.getWriter().write("In order to delete, please provide your user email as a verification into the url with ?email=your@email.here");
+            resp.setStatus(401);
+            return;
+        }
+
+        String email = req.getParameter("email");
+        Trainer authTrainer = (Trainer) req.getSession().getAttribute("authTrainer");
+
+        if(!authTrainer.getEmail().equals(email)){
+            resp.getWriter().write("Email provided does not match the user logged in, double check for confirmation of deletion");
+            return;
+        }
+
+        try {
+            trainerServices.delete(email);
+            resp.getWriter().write("Delete user from the database");
+            req.getSession().invalidate();
+        } catch (ResourcePersistanceException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(404);
+        } catch (Exception e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(500);
+        }
+    }
 }

@@ -44,13 +44,17 @@ public class TrainerServices implements Serviceable<Trainer>{
     }
 
     @Override
-    public Trainer update(Trainer updatedObject) {
-        return null;
+    public Trainer update(Trainer updatedTrainer) {
+        if (!trainerDao.update(updatedTrainer)){
+            return null;
+        }
+
+        return updatedTrainer;
     }
 
     @Override
-    public boolean delete(String id) {
-        return false;
+    public boolean delete(String email) {
+        return trainerDao.delete(email);
     }
 
     public boolean validateEmailNotUsed(String email){

@@ -44,12 +44,16 @@ public class PokemonServices implements Serviceable<Pokemon> {
 
     @Override
     public Pokemon update(Pokemon updatedPokemon) {
-        return null;
+        if(!pokemonDao.update(updatedPokemon)){
+            return null;
+        }
+
+        return updatedPokemon;
     }
 
     @Override
-    public boolean delete(String id) {
-        return false;
+    public boolean delete(String name) {
+        return pokemonDao.delete(name);
     }
 
     @Override

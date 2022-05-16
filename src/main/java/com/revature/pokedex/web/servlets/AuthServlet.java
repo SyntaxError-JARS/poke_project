@@ -7,6 +7,7 @@ import com.revature.pokedex.models.Trainer;
 import com.revature.pokedex.services.TrainerServices;
 import com.revature.pokedex.web.dto.LoginCreds;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,4 +49,9 @@ public class AuthServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().invalidate();
+        resp.getWriter().write("User has logged out!");
+    }
 }

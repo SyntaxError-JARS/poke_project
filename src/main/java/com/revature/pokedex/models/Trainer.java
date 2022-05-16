@@ -2,6 +2,7 @@ package com.revature.pokedex.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Trainer {
 
@@ -10,7 +11,7 @@ public class Trainer {
     private String fname;
     private String lname;
     private String email;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String dob;
 

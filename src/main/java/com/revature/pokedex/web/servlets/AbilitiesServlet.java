@@ -3,7 +3,6 @@ package com.revature.pokedex.web.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pokedex.models.Abilities;
 import com.revature.pokedex.services.AbilitiesServices;
-import com.revature.pokedex.util.collections.serializers.LinkedListSerializerAbilties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
