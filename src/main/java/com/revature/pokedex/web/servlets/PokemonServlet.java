@@ -27,8 +27,8 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getParameter("id") != null){
-            Pokemon pokemon = pokemonServices.readById(req.getParameter("id"));
+        if(req.getParameter("pokemonName") != null){
+            Pokemon pokemon = pokemonServices.readById(req.getParameter("pokemonName"));
             String payload = mapper.writeValueAsString(pokemon);
             resp.getWriter().write(payload);
             return;

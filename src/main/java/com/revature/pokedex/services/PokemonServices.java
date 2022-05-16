@@ -38,8 +38,8 @@ public class PokemonServices implements Serviceable<Pokemon> {
     }
 
     @Override
-    public Pokemon readById(String id) {
-        return pokemonDao.findById(id);
+    public Pokemon readById(String pokemonName) {
+        return pokemonDao.findById(pokemonName);
     }
 
     @Override

@@ -75,13 +75,13 @@ public class PokemonDao implements Crudable<Pokemon> {
     }
 
     @Override
-    public Pokemon findById(String id) {
+    public Pokemon findById(String pokemonName) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection();) { // try with resoruces, because Connection extends the interface Auto-Closeable
 
-            String sql = "select * from pokemon where id = ?";
+            String sql = "select * from pokemon where pokemon_name = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, Integer.parseInt(id));
+            ps.setString(1, pokemonName);
 
             ResultSet rs = ps.executeQuery();
 
