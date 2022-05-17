@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-// @WebServlet("/auth") // this requires a default No-Args constructor
+// @WebServlet("/auth") // this requires a default No-Args constructor, but we make our own constructor in line 24
 public class AuthServlet extends HttpServlet {
 
     private final TrainerServices trainerServices;
