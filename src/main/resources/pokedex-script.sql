@@ -106,6 +106,8 @@ values
 
 
 
+fname
+
 -- single insert into pokemon
 insert into pokemon 
 values
