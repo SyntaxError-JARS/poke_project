@@ -14,7 +14,6 @@ import com.revature.pokedex.pokemon.PokemonServices;
 import com.revature.pokedex.trainer.TrainerServices;
 import com.revature.pokedex.trainer.TrainerServlet;
 import com.revature.pokedex.util.web.servlets.*;
-import com.revature.pokedex.web.servlets.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
