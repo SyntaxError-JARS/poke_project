@@ -3,13 +3,20 @@ package com.revature.pokedex.trainer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "trainer")
 public class Trainer {
 
     // Encapsulated these variables/attributes to the class or instance thereof
     // Another pillar of OOP Encapsulation
+
     private String fname;
     private String lname;
+    @Id
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

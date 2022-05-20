@@ -1,46 +1,41 @@
 package com.revature.pokedex.element_type;
 
+import com.revature.pokedex.pokemon.Pokemon;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 public class ElementType {
-    public String type;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private int id;
+    private String type;
 
-    public ElementType(){
+    @OneToOne(mappedBy = "pokemon_name", cascade = CascadeType.ALL)
+    private Pokemon pokemon;
 
+    public ElementType() {
     }
 
-    public ElementType(String type) {
+    public ElementType(int id, String type) {
+        this.id = id;
         this.type = type;
     }
 
-    // Getters & Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    // Overrides
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ElementType)) return false;
-        ElementType that = (ElementType) o;
-        return Objects.equals(getType(), that.getType());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getType());
-    }
-
-    @Override
-    public String toString() {
-        return "ElementType{" +
-                "type='" + type + '\'' +
-                '}';
     }
 }
