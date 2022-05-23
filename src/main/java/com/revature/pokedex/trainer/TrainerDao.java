@@ -114,7 +114,6 @@ public class TrainerDao implements Crudable<Trainer> {
             HibernateUtil.closeSession();
         }
 
-
     }
     public boolean checkEmail(String email) {
 
@@ -125,8 +124,8 @@ public class TrainerDao implements Crudable<Trainer> {
             query.setParameter("email", email);
             Trainer trainer = (Trainer) query.uniqueResult();
             transaction.commit();
-            if(trainer.getEmail().equals(email)) return true;
-            return false;
+            if(trainer == null) return false;
+            return true;
         } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return false;
