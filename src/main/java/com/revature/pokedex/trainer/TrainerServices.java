@@ -20,19 +20,9 @@ public class TrainerServices implements Serviceable<Trainer> {
 
     @Override
     public List<Trainer> readAll(){
-        logger.info("Begin reading Trainers in our file database.");
-
-
-        try {
-            // TODO: What trainerDao intellisense telling me?
-            List<Trainer> trainers = trainerDao.findAll();
-            logger.info("All trainers have been found here are the results: \n");
-            return trainers;
-
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-            return null;
-        }
+        // TODO: What trainerDao intellisense telling me?
+        List<Trainer> trainers = trainerDao.findAll();
+        return trainers;
     }
 
     @Override

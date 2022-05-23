@@ -22,11 +22,7 @@ public class ElementTypeServices implements Serviceable<ElementType> {
 
     @Override
     public List<ElementType> readAll() {
-        try {
             return elementTypeDao.findAll();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

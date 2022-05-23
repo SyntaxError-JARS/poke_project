@@ -156,7 +156,11 @@ select * from trainer;
 select * from elemental_type et ;
 
 select * from pokemon p ;
-select * from abilities a ;
+--select * from abilities a ;
+select * from ability;
+
+alter table abilities rename to ability;
+
 -------------Read End--------------------
 
 -----------------------------------------

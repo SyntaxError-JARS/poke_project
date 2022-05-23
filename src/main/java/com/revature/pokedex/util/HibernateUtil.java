@@ -1,6 +1,6 @@
 package com.revature.pokedex.util;
 
-import com.revature.pokedex.abilities.Abilities;
+import com.revature.pokedex.ability.Ability;
 import com.revature.pokedex.element_type.ElementType;
 import com.revature.pokedex.pokemon.Pokemon;
 import com.revature.pokedex.trainer.Trainer;
@@ -31,7 +31,7 @@ public class HibernateUtil {
             configuration.addAnnotatedClass(Trainer.class);
             configuration.addAnnotatedClass(Pokemon.class);
             configuration.addAnnotatedClass(ElementType.class);
-            configuration.addAnnotatedClass(Abilities.class);
+            configuration.addAnnotatedClass(Ability.class);
 
             // ServiceRegistry
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

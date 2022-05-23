@@ -1,8 +1,6 @@
-package com.revature.pokedex.abilities;
+package com.revature.pokedex.ability;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pokedex.abilities.Abilities;
-import com.revature.pokedex.abilities.AbilitiesServices;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,26 +10,26 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class AbilitiesServlet extends HttpServlet {
+public class AbilityServlet extends HttpServlet {
 
-    private final AbilitiesServices abilitiesServices;
+    private final AbilityServices abilityServices;
     private final ObjectMapper mapper;
 
-    public AbilitiesServlet(AbilitiesServices abilitiesServices, ObjectMapper mapper) {
-        this.abilitiesServices = abilitiesServices;
+    public AbilityServlet(AbilityServices abilityServices, ObjectMapper mapper) {
+        this.abilityServices = abilityServices;
         this.mapper = mapper;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getParameter("abilityName") != null){
-            Abilities ability = abilitiesServices.readById(req.getParameter("abilityName"));
+            Ability ability = abilityServices.readById(req.getParameter("abilityName"));
             String payload = mapper.writeValueAsString(ability);
             resp.getWriter().write(payload);
             return;
         }
 
-        List<Abilities> abilities = abilitiesServices.readAll();
+        List<Ability> abilities = abilityServices.readAll();
         String payload = mapper.writeValueAsString(abilities);
 
         resp.getWriter().write(payload);
@@ -40,8 +38,8 @@ public class AbilitiesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Abilities abilities = mapper.readValue(req.getInputStream(), Abilities.class);
-        Abilities ability = abilitiesServices.create(abilities);
+        Ability abilities = mapper.readValue(req.getInputStream(), Ability.class);
+        Ability ability = abilityServices.create(abilities);
 
         String payload = mapper.writeValueAsString(ability);
 

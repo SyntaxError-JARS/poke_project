@@ -1,222 +1,137 @@
 package com.revature.pokedex.trainer;
 
-import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
-import com.revature.pokedex.util.ConnectionFactory;
+import com.revature.pokedex.util.HibernateUtil;
 import com.revature.pokedex.util.interfaces.Crudable;
-import com.revature.pokedex.util.logging.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.io.*;
-import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TrainerDao implements Crudable<Trainer> {
 
-    private Logger logger = Logger.getLogger();
-
     @Override
     public Trainer create(Trainer newTrainer) {
-        System.out.println("Here is the newTrainer as it enters our DAO layer: "+ newTrainer); // What happens here? Java knows to invoke the toString() method when printing the object to the terminal
-
-        try(Connection conn = ConnectionFactory.getInstance().getConnection();) {
-
-            // NEVER EVER EVER EVER EVER concatenate or directly use these strings inside of the sql statement
-            // String sql = "insert into trainer value (" + newTrainer.getFname() + "," + newTrainer.getLname();
-
-            // The commented out sql String is using default for auto-generating the ID ifyou used serial
-            // String sql = "insert into trainer values (default, ?, ?, ?, ?, ?)"; // incomplete sql statement, with default if not specifiying columns
-            String sql = "insert into trainer (fname, lname, email, password, dob) values (?, ?, ?, ?, ?)";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            System.out.println(newTrainer.getFname());
-            System.out.println(newTrainer.getLname());
-
-            // 1-indexed, so first ? starts are 1
-            ps.setString(1, newTrainer.getFname());
-            ps.setString(2, newTrainer.getLname());
-            ps.setString(3, newTrainer.getEmail());
-            ps.setString(4, newTrainer.getPassword());
-            ps.setString(5, newTrainer.getDob());
-
-            int checkInsert = ps.executeUpdate();
-
-            if(checkInsert == 0){
-                throw new ResourcePersistanceException("User was not entered into database due to some issue.");
-            }
-
-        } catch (SQLException e){
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            session.save(newTrainer);
+            transaction.commit();
+            return newTrainer;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            HibernateUtil.closeSession();
         }
-        return newTrainer;
     }
 
     @Override
-    public List<Trainer> findAll() throws IOException {
-
-        List<Trainer> trainers = new LinkedList<>();
-
-        // TODO: we trying something here and passing an argumetn???
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) { // try with resoruces, because Connection extends the interface Auto-Closeable
-
-            String sql = "select * from trainer";
-            Statement s = conn.createStatement();
-
-        // conn.createStatement().executeQuery("select * from trainer"); fine but generally not used
-            // TODO: Hey why are we using the sql variable string here?
-            ResultSet rs =s.executeQuery(sql);
-
-            while (rs.next()) { // the last line of the file is null
-                Trainer trainer = new Trainer();
-
-                trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
-                trainer.setLname(rs.getString("lname"));
-                trainer.setDob(rs.getString("dob"));
-                trainer.setPassword(rs.getString("password"));
-                trainer.setEmail(rs.getString("email"));
-
-                trainers.add(trainer);
-            }
-        } catch (SQLException e) {
+    public List<Trainer> findAll() {
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            List<Trainer> trainers = session.createQuery("FROM Trainer").list();
+            transaction.commit();
+            return trainers;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            HibernateUtil.closeSession();
         }
 
-
-
-        System.out.println("Returning trainers infomation to user.");
-        return trainers;
     }
 
     @Override
-    public Trainer findById(String id) {
+    public Trainer findById(String email) {
 
-        try(Connection conn = ConnectionFactory.getInstance().getConnection();){
-
-            String sql = "select * from trainer where id = ?";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setInt(1, Integer.parseInt(id)); // Wrapper class example
-
-            ResultSet rs = ps.executeQuery(); // remember dql, bc selects are the keywords
-
-            if(!rs.next()){
-                throw new ResourcePersistanceException("User was not found in the database, please check ID entered was correct.");
-            }
-
-            Trainer trainer = new Trainer();
-
-            trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
-            trainer.setLname(rs.getString("lname"));
-            trainer.setDob(rs.getString("dob"));
-            trainer.setPassword(rs.getString("password"));
-            trainer.setEmail(rs.getString("email"));
-
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Trainer trainer = session.get(Trainer.class, email);
+            transaction.commit();
             return trainer;
-
-        } catch (SQLException e){
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            HibernateUtil.closeSession();
         }
 
     }
 
     @Override
     public boolean update(Trainer updatedTrainer) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "update trainer set fname = ?, lname = ?, email = ?, password = ?, dob = ? where email = ? ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, updatedTrainer.getFname());
-            ps.setString(2, updatedTrainer.getLname());
-            ps.setString(3, updatedTrainer.getEmail());
-            ps.setString(4, updatedTrainer.getPassword());
-            ps.setString(5, updatedTrainer.getDob());
-            ps.setString(6, updatedTrainer.getEmail());
-
-            int checkInsert = ps.executeUpdate();
-
-            if(checkInsert == 0){
-                throw new ResourcePersistanceException("User was not entered into database due to some issue.");
-            }
-
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            session.merge(updatedTrainer);
+            transaction.commit();
             return true;
-
-        } catch (SQLException e){
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            HibernateUtil.closeSession();
         }
     }
 
     @Override
     public boolean delete(String email) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "delete from trainer where email = ? ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
-
-            int checkInsert = ps.executeUpdate();
-
-            if(checkInsert == 0){
-                throw new ResourcePersistanceException("User was not deleted from database due to some issue.");
-            }
-
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Trainer trainer = session.load(Trainer.class, email);
+            session.remove(trainer);
+            transaction.commit();
             return true;
-
-        } catch (SQLException e){
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            HibernateUtil.closeSession();
         }
     }
 
     public Trainer authenticateTrainer(String email, String password){
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "select * from trainer where email = ? and password = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(!rs.next()){
-                return null;
-            }
-
-            Trainer trainer = new Trainer();
-
-            trainer.setFname(rs.getString("fname")); // this column lable MUST MATCH THE DB
-            trainer.setLname(rs.getString("lname"));
-            trainer.setDob(rs.getString("dob"));
-            trainer.setPassword(rs.getString("password"));
-            trainer.setEmail(rs.getString("email"));
-
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from Trainer where email= :email and password= :password");
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            Trainer trainer = (Trainer) query.uniqueResult();
+            transaction.commit();
             return trainer;
-
-        } catch (SQLException e){
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            HibernateUtil.closeSession();
         }
 
 
     }
     public boolean checkEmail(String email) {
 
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = "select email from trainer where email = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(!rs.isBeforeFirst()){
-                return false;
-            }
-            return true;
-        } catch (SQLException e) {
+        try {
+            Session session = HibernateUtil.getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from Trainer where email= :email");
+            query.setParameter("email", email);
+            Trainer trainer = (Trainer) query.uniqueResult();
+            transaction.commit();
+            if(trainer.getEmail().equals(email)) return true;
+            return false;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            HibernateUtil.closeSession();
         }
     }
 }

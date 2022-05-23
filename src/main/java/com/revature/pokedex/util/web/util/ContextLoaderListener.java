@@ -1,14 +1,14 @@
 package com.revature.pokedex.util.web.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pokedex.abilities.AbilitiesDao;
-import com.revature.pokedex.abilities.AbilitiesServlet;
+import com.revature.pokedex.ability.AbilityDao;
+import com.revature.pokedex.ability.AbilityServlet;
 import com.revature.pokedex.element_type.ElementTypeDao;
 import com.revature.pokedex.pokemon.PokemonDao;
 import com.revature.pokedex.element_type.ElementTypeServlet;
 import com.revature.pokedex.pokemon.PokemonServlet;
 import com.revature.pokedex.trainer.TrainerDao;
-import com.revature.pokedex.abilities.AbilitiesServices;
+import com.revature.pokedex.ability.AbilityServices;
 import com.revature.pokedex.element_type.ElementTypeServices;
 import com.revature.pokedex.pokemon.PokemonServices;
 import com.revature.pokedex.trainer.TrainerServices;
@@ -31,27 +31,27 @@ public class ContextLoaderListener implements ServletContextListener {
         // Instantiate all Daos first
         TrainerDao trainerDao = new TrainerDao();
         ElementTypeDao elementTypeDao = new ElementTypeDao();
-        AbilitiesDao abilitiesDao = new AbilitiesDao();
+        AbilityDao abilityDao = new AbilityDao();
         PokemonDao pokemonDao = new PokemonDao();
 
         // Instantiate and intialize the services with their dao dependency
         TrainerServices trainerServices = new TrainerServices(trainerDao);
         ElementTypeServices elementTypeServices = new ElementTypeServices(elementTypeDao);
-        AbilitiesServices abilitiesServices = new AbilitiesServices(elementTypeDao, abilitiesDao);
-        PokemonServices pokemonServices = new PokemonServices(pokemonDao,elementTypeDao,abilitiesDao);
+        AbilityServices abilityServices = new AbilityServices(elementTypeDao, abilityDao);
+        PokemonServices pokemonServices = new PokemonServices(pokemonDao,elementTypeDao, abilityDao);
 
 
         AuthServlet authServlet = new AuthServlet(trainerServices, mapper);
         TrainerServlet trainerServlet = new TrainerServlet(trainerServices, mapper);
         ElementTypeServlet elementTypeServlet = new ElementTypeServlet(elementTypeServices, mapper);
-        AbilitiesServlet abilitiesServlet = new AbilitiesServlet(abilitiesServices, mapper);
+        AbilityServlet abilityServlet = new AbilityServlet(abilityServices, mapper);
         PokemonServlet pokemonServlet = new PokemonServlet(pokemonServices, mapper);
 
         ServletContext context = sce.getServletContext();
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
         context.addServlet("TrainerServlet", trainerServlet).addMapping("/trainers/*");
         context.addServlet("ElementTypeServlet", elementTypeServlet).addMapping("/elementTypes/*");
-        context.addServlet("AbilitiesServlet", abilitiesServlet).addMapping("/abilities/*");
+        context.addServlet("AbilitiesServlet", abilityServlet).addMapping("/abilities/*");
         context.addServlet("PokemonServlet", pokemonServlet).addMapping("/pokemon/*");
 
     }

@@ -1,5 +1,6 @@
-package com.revature.pokedex.element_type;
+package com.revature.pokedex.ability;
 
+import com.revature.pokedex.element_type.ElementType;
 import com.revature.pokedex.util.HibernateUtil;
 import com.revature.pokedex.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
@@ -9,17 +10,17 @@ import org.hibernate.Transaction;
 import java.io.IOException;
 import java.util.List;
 
-public class ElementTypeDao implements Crudable<ElementType> {
+public class AbilityDao implements Crudable<Ability> {
 
     @Override
-    public ElementType create(ElementType newElementType) {
+    public Ability create(Ability newAbility) {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            session.save(newElementType);
+            session.save(newAbility);
             transaction.commit();
-            return newElementType;
-        } catch (HibernateException | IOException e){
+            return newAbility;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
         } finally {
@@ -28,15 +29,14 @@ public class ElementTypeDao implements Crudable<ElementType> {
     }
 
     @Override
-    public List<ElementType> findAll() {
-
+    public List<Ability> findAll() {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            List<ElementType> elementTypes = session.createQuery("FROM elemental_type").list();
+            List<Ability> abilities = session.createQuery("FROM Ability").list();
             transaction.commit();
-            return elementTypes;
-        } catch (HibernateException | IOException e){
+            return abilities;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
         } finally {
@@ -45,14 +45,14 @@ public class ElementTypeDao implements Crudable<ElementType> {
     }
 
     @Override
-    public ElementType findById(String id) {
+    public Ability findById(String abilityName) {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            ElementType elementType = session.get(ElementType.class, id);
+            Ability ability = session.get(Ability.class, abilityName);
             transaction.commit();
-            return elementType;
-        } catch(HibernateException | IOException e){
+            return ability;
+        } catch (HibernateException | IOException e) {
             e.printStackTrace();
             return null;
         } finally {
@@ -61,11 +61,11 @@ public class ElementTypeDao implements Crudable<ElementType> {
     }
 
     @Override
-    public boolean update(ElementType updatedElementType) {
+    public boolean update(Ability updatedAbility) {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            session.merge(updatedElementType);
+            session.merge(updatedAbility);
             transaction.commit();
             return true;
         } catch (HibernateException | IOException e) {
@@ -81,8 +81,8 @@ public class ElementTypeDao implements Crudable<ElementType> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            ElementType elementType = session.load(ElementType.class, id);
-            session.remove(elementType);
+            Ability ability = session.load(Ability.class, id);
+            session.remove(ability);
             transaction.commit();
             return true;
         } catch (HibernateException | IOException e) {
