@@ -12,8 +12,6 @@ import java.util.List;
 
 public class PokemonDao implements Crudable<Pokemon> {
 
-    private Logger logger = Logger.getLogger();
-
     @Override
     public Pokemon create(Pokemon newPokemon) {
         try {

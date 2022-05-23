@@ -34,6 +34,7 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
         List<Pokemon> pokemons = pokemonServices.readAll();
         String payload = mapper.writeValueAsString(pokemons);
+        resp.addHeader("Access-Control-Allow-Origin", "*");
 
         resp.getWriter().write(payload);
 

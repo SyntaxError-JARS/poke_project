@@ -160,6 +160,7 @@ select * from pokemon p ;
 select * from ability;
 
 alter table abilities rename to ability;
+alter table elemental_type rename to element_type;
 
 -------------Read End--------------------
 
