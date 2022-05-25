@@ -45,11 +45,11 @@ public class AbilityDao implements Crudable<Ability> {
     }
 
     @Override
-    public Ability findById(String abilityName) {
+    public Ability findById(String id) {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            Ability ability = session.get(Ability.class, abilityName);
+            Ability ability = session.get(Ability.class, id);
             transaction.commit();
             return ability;
         } catch (HibernateException | IOException e) {

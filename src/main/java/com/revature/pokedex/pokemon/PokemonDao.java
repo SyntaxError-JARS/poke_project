@@ -14,6 +14,7 @@ public class PokemonDao implements Crudable<Pokemon> {
 
     @Override
     public Pokemon create(Pokemon newPokemon) {
+        System.out.println(newPokemon);
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();

@@ -19,10 +19,10 @@ public class Pokemon {
     @JoinColumn(name = "element_type", referencedColumnName = "id")
     private ElementType elementType;
     @ManyToOne(optional = false)
-    @JoinColumn(name="ability1", referencedColumnName = "ability_name", updatable = false, insertable = false)
+    @JoinColumn(name="ability1", referencedColumnName = "ability_name", updatable = false)
     private Ability ability1;
     @ManyToOne(optional = false)
-    @JoinColumn(name="ability2", referencedColumnName = "ability_name", updatable = false, insertable = false)
+    @JoinColumn(name="ability2", referencedColumnName = "ability_name", updatable = false)
     private Ability ability2;
 
     public Pokemon() {

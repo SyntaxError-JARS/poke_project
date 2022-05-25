@@ -49,7 +49,7 @@ public class ElementTypeDao implements Crudable<ElementType> {
         try {
             Session session = HibernateUtil.getSession();
             Transaction transaction = session.beginTransaction();
-            ElementType elementType = session.get(ElementType.class, id);
+            ElementType elementType = session.get(ElementType.class, Integer.parseInt(id));
             transaction.commit();
             return elementType;
         } catch(HibernateException | IOException e){

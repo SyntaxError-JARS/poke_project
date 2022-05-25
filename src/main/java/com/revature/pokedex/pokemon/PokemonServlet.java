@@ -1,8 +1,13 @@
 package com.revature.pokedex.pokemon;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.pokedex.ability.Ability;
+import com.revature.pokedex.ability.AbilityServices;
+import com.revature.pokedex.element_type.ElementType;
+import com.revature.pokedex.element_type.ElementTypeServices;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
+import com.revature.pokedex.util.web.dto.PokemonInitializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +22,14 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     private final PokemonServices pokemonServices;
     private final ObjectMapper mapper;
+    private final ElementTypeServices elementTypeServices;
+    private final AbilityServices abilityServices;
 
-    public PokemonServlet(PokemonServices pokemonServices, ObjectMapper mapper) {
+    public PokemonServlet(PokemonServices pokemonServices, ObjectMapper mapper, ElementTypeServices elementTypeServices, AbilityServices abilityServices) {
         this.pokemonServices = pokemonServices;
         this.mapper = mapper;
+        this.elementTypeServices = elementTypeServices;
+        this.abilityServices = abilityServices;
     }
 
     @Override
@@ -56,7 +65,25 @@ public class PokemonServlet extends HttpServlet implements Authable {
         resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         // TODO: Let's create a pokemon
-        Pokemon newPokemon = mapper.readValue(req.getInputStream(), Pokemon.class); // from JSON to Java Object (Pokemon)
+        Pokemon newPokemon = new Pokemon();
+        PokemonInitializer initPokemon = mapper.readValue(req.getInputStream(), PokemonInitializer.class); // from JSON to Java Object (Pokemon)
+        try{
+            ElementType elementType = elementTypeServices.readById(String.valueOf(initPokemon.getElementType()));
+            Ability ability1 = abilityServices.readById(initPokemon.getAbility1());
+            System.out.println(ability1);
+            Ability ability2 = abilityServices.readById(initPokemon.getAbility2());
+
+            newPokemon.setPokemonName(initPokemon.getPokemonName());
+            newPokemon.setAtk(initPokemon.getAtk());
+            newPokemon.setHp(initPokemon.getHp());
+            newPokemon.setElementType(elementType);
+            newPokemon.setAbility1(ability1);
+            newPokemon.setAbility2(ability2);
+        }catch (Exception e){
+            resp.getWriter().write(e.getMessage());
+        }
+
+        System.out.println(newPokemon);
         Pokemon persistedPokemon = pokemonServices.create(newPokemon);
 
         String payload = mapper.writeValueAsString(persistedPokemon); // Mapping from Java Object (Pokemon) to JSON

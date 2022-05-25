@@ -45,7 +45,7 @@ public class ContextLoaderListener implements ServletContextListener {
         TrainerServlet trainerServlet = new TrainerServlet(trainerServices, mapper);
         ElementTypeServlet elementTypeServlet = new ElementTypeServlet(elementTypeServices, mapper);
         AbilityServlet abilityServlet = new AbilityServlet(abilityServices, mapper);
-        PokemonServlet pokemonServlet = new PokemonServlet(pokemonServices, mapper);
+        PokemonServlet pokemonServlet = new PokemonServlet(pokemonServices, mapper, elementTypeServices, abilityServices);
 
         ServletContext context = sce.getServletContext();
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
