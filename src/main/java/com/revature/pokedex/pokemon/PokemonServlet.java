@@ -24,7 +24,18 @@ public class PokemonServlet extends HttpServlet implements Authable {
     }
 
     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doOptions(req, resp);
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         if(req.getParameter("pokemonName") != null){
             Pokemon pokemon = pokemonServices.readById(req.getParameter("pokemonName"));
             String payload = mapper.writeValueAsString(pokemon);
@@ -34,7 +45,6 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
         List<Pokemon> pokemons = pokemonServices.readAll();
         String payload = mapper.writeValueAsString(pokemons);
-        resp.addHeader("Access-Control-Allow-Origin", "*");
 
         resp.getWriter().write(payload);
 
@@ -42,13 +52,16 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if(!checkAuth(req, resp)) return;
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         // TODO: Let's create a pokemon
         Pokemon newPokemon = mapper.readValue(req.getInputStream(), Pokemon.class); // from JSON to Java Object (Pokemon)
         Pokemon persistedPokemon = pokemonServices.create(newPokemon);
 
         String payload = mapper.writeValueAsString(persistedPokemon); // Mapping from Java Object (Pokemon) to JSON
+
+
 
         resp.getWriter().write("Persisted the provided pokemon as show below \n");
         resp.getWriter().write(payload);
@@ -57,10 +70,14 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         if(!checkAuth(req, resp)) return;
 
         Pokemon pokemonUpdate = mapper.readValue(req.getInputStream(), Pokemon.class);
         Pokemon updatedPokemon = pokemonServices.update(pokemonUpdate);
+
 
         String payload = mapper.writeValueAsString(updatedPokemon);
         resp.getWriter().write(payload);
@@ -69,9 +86,13 @@ public class PokemonServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
         if(!checkAuth(req, resp)) return;
         if(req.getParameter("pokemonName") == null){
+
             resp.getWriter().write("In order to delete, please provide your the pokemonName into the url with ?pokemonName=example-mander");
             resp.setStatus(401);
             return;

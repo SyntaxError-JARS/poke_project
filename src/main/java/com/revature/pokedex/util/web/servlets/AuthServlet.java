@@ -40,7 +40,10 @@ public class AuthServlet extends HttpServlet {
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("authTrainer", authTrainer);
 
-            resp.getWriter().write("You have successfully logged in!");
+            String payload = mapper.writeValueAsString(authTrainer);
+
+            resp.getWriter().write(payload);
+            resp.setStatus(200);
         } catch (AuthenticationException | InvalidRequestException e){
             resp.setStatus(404);
             resp.getWriter().write(e.getMessage());

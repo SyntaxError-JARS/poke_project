@@ -1,6 +1,7 @@
 package com.revature.pokedex.trainer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
 import com.revature.pokedex.util.logging.Logger;
@@ -27,14 +28,23 @@ public class TrainerServlet extends HttpServlet implements Authable {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doOptions(req, resp);
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    }
 
-        if(!checkAuth(req, resp)) return;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
         // The below code allows to split information from the endpoint after the /trainers/. Reminder the first element is empty because it takes the value from before the first /
 //        String pathInfo = req.getPathInfo();
 //        String[] pathParts = pathInfo.split("/");
 //        System.out.println(pathParts[0] + pathParts[1] + pathParts[2]);
-
 
         // Handling the query params in the /trainers?id=x&email=y
         if(req.getParameter("id") != null && req.getParameter("email") != null){
@@ -66,6 +76,9 @@ public class TrainerServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
         if(!checkAuth(req, resp)) return;
         Trainer authTrainer = (Trainer) req.getSession().getAttribute("authTrainer");
@@ -87,10 +100,19 @@ public class TrainerServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-        Trainer trainer = mapper.readValue(req.getInputStream(), Trainer.class); // from JSON to Java Object (Pokemon)
-        Trainer persistedTrainer = trainerServices.create(trainer);
-
+        Trainer persistedTrainer;
+        try {
+            Trainer trainer = mapper.readValue(req.getInputStream(), Trainer.class); // from JSON to Java Object (Pokemon)
+            persistedTrainer = trainerServices.create(trainer);
+        } catch (InvalidRequestException e){
+            resp.getWriter().write(e.getMessage());
+            resp.setStatus(404);
+            return;
+        }
         String payload = mapper.writeValueAsString(persistedTrainer); // Mapping from Java Object (Pokemon) to JSON
 
         resp.getWriter().write("Persisted the provided trainer as show below \n");
@@ -100,7 +122,9 @@ public class TrainerServlet extends HttpServlet implements Authable {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         if(!checkAuth(req,resp)) return;
         if(req.getParameter("email") == null){
             resp.getWriter().write("In order to delete, please provide your user email as a verification into the url with ?email=your@email.here");
