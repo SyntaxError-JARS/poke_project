@@ -64,7 +64,7 @@ public class PokemonServlet extends HttpServlet implements Authable {
         resp.addHeader("Access-Control-Allow-Origin", "*");
         resp.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        // TODO: Let's create a pokemon
+
         Pokemon newPokemon = new Pokemon();
         PokemonInitializer initPokemon = mapper.readValue(req.getInputStream(), PokemonInitializer.class); // from JSON to Java Object (Pokemon)
         try{
