@@ -24,6 +24,8 @@ public class HibernateUtil {
             Properties props = new Properties();
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             props.load(loader.getResourceAsStream("hibernate.properties"));
+            String url = System.getenv("SQLAZURECONNSTR_PokeProjectDB");
+            configuration.setProperty("url", url);
 
             // Add properties to our configuration
             configuration.setProperties(props);
