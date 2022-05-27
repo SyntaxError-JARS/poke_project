@@ -21,16 +21,16 @@ public class HibernateUtil {
     public static Session getSession() throws IOException {
         if(sessionFactory == null) {
             Configuration configuration = new Configuration();
-            Properties props = new Properties();
+//            Properties props = new Properties();
+            // AZURE does not like Threads and trying to load resources via a ClassLoader
+//            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//            props.load(loader.getResourceAsStream("hibernate.properties"));
+//            // Add properties to our configuration
+//            configuration.setProperties(props);
+
             String url = System.getenv("SQLAZURECONNSTR_PokeProjectDB");
             String username = System.getenv("DBUSER");
             String password = System.getenv("DBPASS");
-
-/*hibernate.dialect=org.hibernate.dialect.SQLServerDialect
-hibernate.connection.driver_class=com.microsoft.sqlserver.jdbc.SQLServerDriver
-hibernate.show_sql=true
-# leverage create once and update thereafter
-hibernate.hbm2ddl.auto=update*/
 
             configuration.setProperty("hibernate.connection.url", url);
             configuration.setProperty("hibernate.connection.username", username);
@@ -40,8 +40,6 @@ hibernate.hbm2ddl.auto=update*/
             configuration.setProperty("hibernate.show_sql", "true");
             configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
-            // Add properties to our configuration
-//            configuration.setProperties(props);
             // ONE ADDITIONAL STEP I NEED TO INCLUDE
             configuration.addAnnotatedClass(Trainer.class);
             configuration.addAnnotatedClass(Pokemon.class);
