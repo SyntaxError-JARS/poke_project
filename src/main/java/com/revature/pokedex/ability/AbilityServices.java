@@ -2,7 +2,6 @@ package com.revature.pokedex.ability;
 
 import com.revature.pokedex.element_type.ElementTypeDao;
 import com.revature.pokedex.util.interfaces.Serviceable;
-import com.revature.pokedex.util.logging.Logger;
 
 import java.util.List;
 
@@ -10,7 +9,6 @@ public class AbilityServices implements Serviceable<Ability> {
 
     private final ElementTypeDao elementTypeDao;
     private final AbilityDao abilityDao;
-    private Logger logger = Logger.getLogger();
 
     // DI - Dependency Injection
     public AbilityServices(ElementTypeDao elementTypeDao, AbilityDao abilityDao) {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
-import com.revature.pokedex.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ public class TrainerServlet extends HttpServlet implements Authable {
 
     private final TrainerServices trainerServices;
     private final ObjectMapper mapper;
-    private final Logger logger = Logger.getLogger();
 
     public TrainerServlet(TrainerServices trainerServices, ObjectMapper mapper) {
         this.trainerServices = trainerServices;
@@ -58,7 +56,6 @@ public class TrainerServlet extends HttpServlet implements Authable {
             try {
                 trainer = trainerServices.readById(req.getParameter("id")); // EVERY PARAMETER RETURN FROM A URL IS A STRING
             } catch (ResourcePersistanceException e){
-                logger.warn(e.getMessage());
                 resp.setStatus(404);
                 resp.getWriter().write(e.getMessage());
                 return;

@@ -1,14 +1,12 @@
 package com.revature.pokedex.element_type;
 
 import com.revature.pokedex.util.interfaces.Serviceable;
-import com.revature.pokedex.util.logging.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ElementTypeServices implements Serviceable<ElementType> {
     private final ElementTypeDao elementTypeDao;
-    private Logger logger = Logger.getLogger();
 
 
     public ElementTypeServices(ElementTypeDao elementTypeDao) {

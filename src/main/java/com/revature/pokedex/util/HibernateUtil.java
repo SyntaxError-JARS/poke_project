@@ -22,13 +22,26 @@ public class HibernateUtil {
         if(sessionFactory == null) {
             Configuration configuration = new Configuration();
             Properties props = new Properties();
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            props.load(loader.getResourceAsStream("hibernate.properties"));
             String url = System.getenv("SQLAZURECONNSTR_PokeProjectDB");
-            configuration.setProperty("url", url);
+            String username = System.getenv("DBUSER");
+            String password = System.getenv("DBPASS");
+
+/*hibernate.dialect=org.hibernate.dialect.SQLServerDialect
+hibernate.connection.driver_class=com.microsoft.sqlserver.jdbc.SQLServerDriver
+hibernate.show_sql=true
+# leverage create once and update thereafter
+hibernate.hbm2ddl.auto=update*/
+
+            configuration.setProperty("hibernate.connection.url", url);
+            configuration.setProperty("hibernate.connection.username", username);
+            configuration.setProperty("hibernate.connection.password", password);
+            configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
+            configuration.setProperty("hibernate.connection.driver_class", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            configuration.setProperty("hibernate.show_sql", "true");
+            configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
             // Add properties to our configuration
-            configuration.setProperties(props);
+//            configuration.setProperties(props);
             // ONE ADDITIONAL STEP I NEED TO INCLUDE
             configuration.addAnnotatedClass(Trainer.class);
             configuration.addAnnotatedClass(Pokemon.class);

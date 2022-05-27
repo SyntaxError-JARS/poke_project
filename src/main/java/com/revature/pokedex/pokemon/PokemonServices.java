@@ -3,7 +3,6 @@ package com.revature.pokedex.pokemon;
 import com.revature.pokedex.ability.AbilityDao;
 import com.revature.pokedex.element_type.ElementTypeDao;
 import com.revature.pokedex.util.interfaces.Serviceable;
-import com.revature.pokedex.util.logging.Logger;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ public class PokemonServices implements Serviceable<Pokemon> {
     private final PokemonDao pokemonDao;
     private final ElementTypeDao elementTypeDao;
     private final AbilityDao abilityDao;
-    private Logger logger = Logger.getLogger();
 
     public PokemonServices(PokemonDao pokemonDao, ElementTypeDao elementTypeDao, AbilityDao abilityDao){
         this.pokemonDao = pokemonDao;

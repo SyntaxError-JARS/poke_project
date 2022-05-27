@@ -4,15 +4,12 @@ import com.revature.pokedex.util.exceptions.AuthenticationException;
 import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Serviceable;
-import com.revature.pokedex.util.logging.Logger;
-
 import java.io.IOException;
 import java.util.List;
 
 public class TrainerServices implements Serviceable<Trainer> {
 
     private TrainerDao trainerDao;
-    private Logger logger = Logger.getLogger();
 
     public TrainerServices(TrainerDao trainerDao) {
         this.trainerDao = trainerDao;
@@ -51,7 +48,6 @@ public class TrainerServices implements Serviceable<Trainer> {
     }
     
     public Trainer create(Trainer newTrainer){
-        logger.info("Trainer trying to be registered: " + newTrainer);
         if(!validateInput(newTrainer)){ // checking if false
             // TODO: throw - what's this keyword?
             throw new InvalidRequestException("User input was not validated, either empty String or null values");
@@ -67,13 +63,11 @@ public class TrainerServices implements Serviceable<Trainer> {
         if(persistedTrainer == null){
             throw new ResourcePersistanceException("Trainer was not persisted to the database upon registration");
         }
-        logger.info("Trainer has been persisted: " + newTrainer);
         return persistedTrainer;
     }
 
     @Override
     public boolean validateInput(Trainer newTrainer) {
-        logger.debug("Validating Trainer: " + newTrainer);
         if(newTrainer == null) return false;
         if(newTrainer.getFname() == null || newTrainer.getFname().trim().equals("")) return false;
         if(newTrainer.getLname() == null || newTrainer.getLname().trim().equals("")) return false;
