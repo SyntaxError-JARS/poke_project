@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'pokeproject'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_35DC6045AC1A40B0BFED63FBF9FAE1F5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_614413E2E9FC4BBBA7FEBBB58B6D876F }}
           package: '*.war'
