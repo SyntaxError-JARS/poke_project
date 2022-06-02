@@ -13,18 +13,18 @@
 -- Added in the Trainer table to match the system
 
 create table trainer (
-	id int IDENTITY(1,10) primary key,
+	id int IDENTITY(1,1) primary key,
 	fname varchar(20) not null,
 	lname varchar(20) not null,
 	email varchar(30) not null unique,
-	"password" varchar(25) not null,
+	user_password varchar(25) not null,
 	dob varchar(15) not null
 );
 
 -- Need this incase we add any information pertaining to the element type and insuring consistency
 create table element_type (
 	id int IDENTITY(3,10) primary key,
-	"type" varchar(30)
+	type_name varchar(30)
 );
 
 create table ability (
@@ -112,7 +112,7 @@ values
 -- multi-insert 
 insert into pokemon 
 values
-('pidgey', '10', '1', 1, 'Tackle', 'Scratch'),
+('pidgey', '10', '1','Tackle', 'Scratch'),
 ('charmander', '25', '5', 2, 'Scratch', 'Fire Breath'),
 ('squirtle', '30', '3', 3, 'Scratch', 'Water Gun'),
 ('pikachu', '15', '10', 4, 'Tackle', 'Shock'),
