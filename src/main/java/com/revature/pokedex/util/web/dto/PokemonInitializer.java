@@ -72,4 +72,16 @@ public class PokemonInitializer {
     public void setAbility2(String ability2) {
         this.ability2 = ability2;
     }
+
+    @Override
+    public String toString() {
+        return "PokemonInitializer{" +
+                "pokemonName='" + pokemonName + '\'' +
+                ", hp=" + hp +
+                ", atk=" + atk +
+                ", elementType=" + elementType +
+                ", ability1='" + ability1 + '\'' +
+                ", ability2='" + ability2 + '\'' +
+                '}';
+    }
 }
