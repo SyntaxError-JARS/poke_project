@@ -1,6 +1,5 @@
 package com.revature.pokedex.pokemon;
 
-import com.revature.pokedex.util.HibernateUtil;
 import com.revature.pokedex.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
