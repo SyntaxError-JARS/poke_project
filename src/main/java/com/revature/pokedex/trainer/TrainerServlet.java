@@ -5,8 +5,13 @@ import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +22,7 @@ import java.util.List;
 
 import static com.revature.pokedex.util.interfaces.Authable.checkAuth;
 
-@Controller
+@RestController
 @CrossOrigin // this handles CORS
 public class TrainerServlet implements Authable {
 
@@ -30,4 +35,14 @@ public class TrainerServlet implements Authable {
 
     // TODO: Implement ME
 
+    @GetMapping("/trainer-findall")
+    public List<Trainer> getAllTrainers(){
+        return trainerServices.readAll();
+    }
+
+    @GetMapping("/trainers")
+    public ResponseEntity<List> findAllTrainers(){
+        // ResponseEntity takes an Object for the ResponseBody and an HTTP Status Code
+        return new ResponseEntity<>(trainerServices.readAll(), HttpStatus.I_AM_A_TEAPOT);
+    }
 }
