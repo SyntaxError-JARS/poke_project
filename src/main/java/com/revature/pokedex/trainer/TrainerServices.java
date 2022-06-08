@@ -4,9 +4,14 @@ import com.revature.pokedex.util.exceptions.AuthenticationException;
 import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Serviceable;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
+@Service
+@Transactional // This is handled each one of these method calls as an individual transaction
 public class TrainerServices implements Serviceable<Trainer> {
 
     private TrainerDao trainerDao;
@@ -18,33 +23,34 @@ public class TrainerServices implements Serviceable<Trainer> {
     @Override
     public List<Trainer> readAll(){
         // TODO: What trainerDao intellisense telling me?
-        List<Trainer> trainers = trainerDao.findAll();
+        // Casting the findAll Iterable<Trainer> to a List<Trainer>
+        List<Trainer> trainers = (List<Trainer>) trainerDao.findAll();
         return trainers;
     }
 
     @Override
     public Trainer readById(String id) throws ResourcePersistanceException{
 
-        Trainer trainer = trainerDao.findById(id);
+        // Add .get() after findById as it is an Optional and not just a Trainer class that is returned byt he CrudRepository
+        Trainer trainer = trainerDao.findById(id).get();
         return trainer;
     }
 
     @Override
     public Trainer update(Trainer updatedTrainer) {
-        if (!trainerDao.update(updatedTrainer)){
-            return null;
-        }
+        trainerDao.save(updatedTrainer);
 
         return updatedTrainer;
     }
 
     @Override
     public boolean delete(String email) {
-        return trainerDao.delete(email);
+        trainerDao.deleteById(email);
+        return true;
     }
 
     public boolean validateEmailNotUsed(String email){
-        return trainerDao.checkEmail(email);
+        return trainerDao.existsById(email);
     }
     
     public Trainer create(Trainer newTrainer){
@@ -58,7 +64,7 @@ public class TrainerServices implements Serviceable<Trainer> {
             throw new InvalidRequestException("User email is already in use. Please try again with another email or login into previous made account.");
         }
 
-        Trainer persistedTrainer = trainerDao.create(newTrainer);
+        Trainer persistedTrainer = trainerDao.save(newTrainer);
 
         if(persistedTrainer == null){
             throw new ResourcePersistanceException("Trainer was not persisted to the database upon registration");
