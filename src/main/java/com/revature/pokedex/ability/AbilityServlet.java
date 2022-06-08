@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 
 @RestController
 @CrossOrigin // CORS, this handles all cors This handles EVERYTHINg ("*")
-public class AbilityServlet extends HttpServlet {
+public class AbilityServlet {
 
     private final AbilityServices abilityServices;
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class ElementTypeServlet extends HttpServlet {
+public class ElementTypeServlet {
     // @Autowired don't do this, makes charles sad and cry inside
     private final ElementTypeServices elementTypeServices;
 

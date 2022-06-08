@@ -19,7 +19,7 @@ import static com.revature.pokedex.util.interfaces.Authable.checkAuth;
 
 @Controller
 @CrossOrigin // this handles CORS
-public class TrainerServlet extends HttpServlet implements Authable {
+public class TrainerServlet implements Authable {
 
     private final TrainerServices trainerServices;
 

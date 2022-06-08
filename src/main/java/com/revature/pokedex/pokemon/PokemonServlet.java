@@ -9,6 +9,7 @@ import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
 import com.revature.pokedex.util.web.dto.PokemonInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
@@ -21,7 +22,8 @@ import java.util.List;
 import static com.revature.pokedex.util.interfaces.Authable.checkAuth;
 
 @RestController
-public class PokemonServlet extends HttpServlet implements Authable {
+@CrossOrigin
+public class PokemonServlet implements Authable {
 
     private final PokemonServices pokemonServices;
     private final ElementTypeServices elementTypeServices;

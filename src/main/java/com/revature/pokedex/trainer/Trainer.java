@@ -1,8 +1,10 @@
 package com.revature.pokedex.trainer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "trainer")
