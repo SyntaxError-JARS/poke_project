@@ -42,7 +42,7 @@ create table pokemon (
 	pokemon_name varchar(50),
 	hp int not null,
 	atk int not null,
-	element_type int not null,
+	element_type bit not null,
 	ability1 varchar(255) not null,
 	ability2 varchar(255) not null 
 	--constraint fk_abilities foreign key(ability_1) references abilities(ability_name)

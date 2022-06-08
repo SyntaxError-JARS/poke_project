@@ -1,5 +1,6 @@
 package com.revature.pokedex.trainer;
 
+import com.revature.pokedex.util.ConnectionFactory;
 import com.revature.pokedex.util.HibernateUtil;
 import com.revature.pokedex.util.interfaces.Crudable;
 import org.hibernate.HibernateException;
@@ -8,6 +9,9 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TrainerDao implements Crudable<Trainer> {

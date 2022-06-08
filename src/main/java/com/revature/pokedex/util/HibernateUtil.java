@@ -21,12 +21,12 @@ public class HibernateUtil {
     public static Session getSession() throws IOException {
         if(sessionFactory == null) {
             Configuration configuration = new Configuration();
-//            Properties props = new Properties();
+            Properties props = new Properties();
             // AZURE does not like Threads and trying to load resources via a ClassLoader
-//            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-//            props.load(loader.getResourceAsStream("hibernate.properties"));
-//            // Add properties to our configuration
-//            configuration.setProperties(props);
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            props.load(loader.getResourceAsStream("hibernate.properties"));
+            // Add properties to our configuration
+            configuration.setProperties(props);
 
             String url = System.getenv("SQLAZURECONNSTR_PokeProjectDB");
             String username = System.getenv("DBUSER");
