@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.List;
+import java.util.Optional;
 
 // DAO is now an interfact and requires the extension of CrudRepository<DataTypeOfModel, IDDataType>
 @Repository
 public interface TrainerDao extends CrudRepository<Trainer, String> {
 
     @Query(value = "FROM Trainer WHERE email= :email AND password = :password")
-    Trainer authenticateTrainer(String email, String password);
+    Optional<Trainer> authenticateTrainer(String email, String password);
 }

@@ -4,11 +4,13 @@ import com.revature.pokedex.util.exceptions.AuthenticationException;
 import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Serviceable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional // This is handled each one of these method calls as an individual transaction
@@ -16,6 +18,7 @@ public class TrainerServices implements Serviceable<Trainer> {
 
     private TrainerDao trainerDao;
 
+    @Autowired // not really necessary, but good practice
     public TrainerServices(TrainerDao trainerDao) {
         this.trainerDao = trainerDao;
     }
@@ -88,13 +91,13 @@ public class TrainerServices implements Serviceable<Trainer> {
             throw new InvalidRequestException("Either email or password is an invalid entry. Please try logging in again");
         }
 
-        Trainer authenticatedTrainer = trainerDao.authenticateTrainer(email, password);
+        Optional<Trainer> authenticatedTrainer = trainerDao.authenticateTrainer(email, password);
 
-        if (authenticatedTrainer == null){
+        if (!authenticatedTrainer.isPresent()){
             throw new AuthenticationException("Unauthenticated user, information provided was not consistent with our database.");
         }
 
-        return authenticatedTrainer;
+        return authenticatedTrainer.get();
 
     }
 }

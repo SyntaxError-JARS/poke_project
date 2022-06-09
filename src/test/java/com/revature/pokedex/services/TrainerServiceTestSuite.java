@@ -42,7 +42,7 @@ public class TrainerServiceTestSuite {
         // Arrange
         Trainer trainer = new Trainer("pie", "pie", "pie","pie","pie");
         // THe below code ensures that the services can continue execution and get expected results from the dao without any issues
-        when(mockTrainerDao.create(trainer)).thenReturn(trainer);
+        when(mockTrainerDao.save(trainer)).thenReturn(trainer);
 
         // Act
         Trainer actualTrainer = sut.create(trainer);
@@ -54,29 +54,29 @@ public class TrainerServiceTestSuite {
         Assertions.assertEquals("pie", actualTrainer.getEmail());
         Assertions.assertEquals("pie", actualTrainer.getDob());
         // Mockito is verifying that the creation method was execute only once!
-        verify(mockTrainerDao, times(1)).create(trainer);
+        verify(mockTrainerDao, times(1)).save(trainer);
     }
     @Test
     public void test_create_givenInvalidUser_throwsInvalidRequestException(){
         // Arrange
         Trainer trainer = new Trainer("pie", "", "pie","pie","pie");
-        when(mockTrainerDao.create(trainer)).thenReturn(trainer);
+        when(mockTrainerDao.save(trainer)).thenReturn(trainer);
 
 
         // Assert
         Assertions.assertThrows(InvalidRequestException.class, () -> { sut.create(trainer); });
-        verify(mockTrainerDao, times(0)).create(trainer);
+        verify(mockTrainerDao, times(0)).save(trainer);
     }
 
     @Test
     public void test_create_givenRepeatedUserInformation_throwsInvalidRequestException(){
         Trainer trainer = new Trainer("pie", "", "pie","pie","pie");
-        when(mockTrainerDao.checkEmail(trainer.getEmail())).thenReturn(true);
+        when(mockTrainerDao.existsById(trainer.getEmail())).thenReturn(true);
 
 
         // Assert
         Assertions.assertThrows(InvalidRequestException.class, () -> { sut.create(trainer);});
-        verify(mockTrainerDao, times(0)).create(trainer);
+        verify(mockTrainerDao, times(0)).save(trainer);
     }
 
     @Test

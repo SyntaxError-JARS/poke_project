@@ -2,9 +2,15 @@ package com.revature.pokedex.util.web.servlets;
 
 import com.revature.pokedex.pokemon.Pokemon;
 import com.revature.pokedex.trainer.Trainer;
+import com.revature.pokedex.util.exceptions.AuthenticationException;
+import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.web.dto.PokemonInitializer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -29,5 +35,41 @@ public class TestServlet {
     @PostMapping("/post-pokemon")
     public @ResponseBody PokemonInitializer postTestPokemon(@RequestBody PokemonInitializer pokemon){
         return pokemon;
+    }
+
+    @GetMapping("/testException")
+    public void testException(){
+        throw new InvalidRequestException("Boooo don't hit this endpoint");
+    }
+
+    @GetMapping("/testException1")
+    public void testException1(){
+        throw new InvalidRequestException("Boooo don't hit this endpoint");
+    }
+    @GetMapping("/testException2")
+    public void testException2(){
+        throw new InvalidRequestException("Boooo don't hit this endpoint");
+    }
+    @GetMapping("/testException3")
+    public void testException3(){
+        throw new InvalidRequestException("Boooo don't hit this endpoint");
+    }
+
+    @GetMapping("/testException4")
+    public void testException4(){
+        throw new AuthenticationException("Boooo don't hit this unauthorized endpoint");
+    }
+
+    @ExceptionHandler({InvalidRequestException.class})
+    public ResponseEntity<String> handleException(Exception e){
+        String message = "Caught the invalid request with : " + e.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // only use with void, if you plan to return some JSON body you have to use ResponseEntity<>
+    public void handleException2(Exception e){
+        String message = "Caught the invalid request2 with : " + e.getMessage();
+        System.out.println(message);
     }
 }
