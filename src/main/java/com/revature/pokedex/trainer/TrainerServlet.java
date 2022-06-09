@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.revature.pokedex.util.interfaces.Authable.checkAuth;
 
-@RestController
+@Controller
 @CrossOrigin // this handles CORS
 public class TrainerServlet implements Authable {
 
@@ -36,12 +36,12 @@ public class TrainerServlet implements Authable {
     // TODO: Implement ME
 
     @GetMapping("/trainer-findall")
-    public List<Trainer> getAllTrainers(){
+    public @ResponseBody List<Trainer> getAllTrainers(){
         return trainerServices.readAll();
     }
 
     @GetMapping("/trainers")
-    public ResponseEntity<List> findAllTrainers(){
+    public @ResponseBody ResponseEntity<List> findAllTrainers(){
         // ResponseEntity takes an Object for the ResponseBody and an HTTP Status Code
         return new ResponseEntity<>(trainerServices.readAll(), HttpStatus.I_AM_A_TEAPOT);
     }
