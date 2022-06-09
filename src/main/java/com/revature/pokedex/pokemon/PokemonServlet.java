@@ -5,11 +5,13 @@ import com.revature.pokedex.ability.Ability;
 import com.revature.pokedex.ability.AbilityServices;
 import com.revature.pokedex.element_type.ElementType;
 import com.revature.pokedex.element_type.ElementTypeServices;
+import com.revature.pokedex.util.exceptions.InvalidRequestException;
 import com.revature.pokedex.util.exceptions.ResourcePersistanceException;
 import com.revature.pokedex.util.interfaces.Authable;
 import com.revature.pokedex.util.web.dto.PokemonInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
@@ -37,5 +39,10 @@ public class PokemonServlet implements Authable {
     }
 
     // TODO: Implement me
+
+    @GetMapping("/pokemonEx")
+    public String pokemonException(){
+        throw new InvalidRequestException("You don't want to request any pokemon");
+    }
 
 }

@@ -60,16 +60,5 @@ public class TestServlet {
         throw new AuthenticationException("Boooo don't hit this unauthorized endpoint");
     }
 
-    @ExceptionHandler({InvalidRequestException.class})
-    public ResponseEntity<String> handleException(Exception e){
-        String message = "Caught the invalid request with : " + e.getMessage();
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler({AuthenticationException.class})
-    @ResponseStatus(HttpStatus.UNAUTHORIZED) // only use with void, if you plan to return some JSON body you have to use ResponseEntity<>
-    public void handleException2(Exception e){
-        String message = "Caught the invalid request2 with : " + e.getMessage();
-        System.out.println(message);
-    }
 }
