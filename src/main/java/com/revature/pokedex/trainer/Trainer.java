@@ -1,94 +1,32 @@
 package com.revature.pokedex.trainer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
-
+@Data // this handles toString, hashCode, equals() and your getters and setters
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "trainer")
 public class Trainer {
 
+    @NotBlank(message = "Hey you need a first name, it cannot be blank")
+    @NotNull
     private String fname;
     private String lname;
     @Id
+    @Email(message = "please provide valid email")
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Pattern(message = "Minimum eight characters, at least one letter, one number and one special character required:", regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
     private String password;
+    @Size(min = 10, max = 1000)
     private String dob;
-
-
-
-    public Trainer(String fname, String lname, String email, String password, String dob) {
-        super();
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
-        this.dob = dob;
-    }
-
-    public Trainer(String password){
-        this.password = password;
-    }
-
-    public Trainer() {
-
-    }
-
-    // Getters & Setters
-    public String getFname() {
-        return fname;
-    }
-
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
-    @Override
-    public String toString() {
-        return "Trainer{" +
-                "fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
-                ", email='" + email + '\'' +
-                ", dob='" + dob + '\'' +
-                '}';
-    }
-
 
 }

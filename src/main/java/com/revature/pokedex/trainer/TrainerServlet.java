@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import static com.revature.pokedex.util.interfaces.Authable.checkAuth;
 
 @RestController // @Controller
 @CrossOrigin //Resource Sharing, by default it allows all "*"
-public class TrainerServlet implements Authable {
+public class TrainerServlet {
 
     private final TrainerServices trainerServices;
 
@@ -38,7 +40,7 @@ public class TrainerServlet implements Authable {
     // Create
     @PostMapping("/register")
 
-    public ResponseEntity<Trainer> saveTrainer(@RequestBody Trainer trainer){
+    public ResponseEntity<Trainer> saveTrainer(@RequestBody @Valid Trainer trainer){
         Trainer newTrainer = trainerServices.create(trainer);
         return new ResponseEntity<>(newTrainer, HttpStatus.CREATED);
     }
